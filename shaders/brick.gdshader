@@ -4,6 +4,7 @@ shader_type spatial;
 instance uniform vec4 base_color : source_color = vec4(0.8, 0.3, 0.3, 1.0);
 instance uniform float flash = 0.0;
 instance uniform float hp_glow = 0.0;
+instance uniform float dmg = 0.0; // dano acumulado do obstáculo (0..1)
 instance uniform float kind = 0.0; // 0 normal, 1 obstáculo, 2 bomba
 instance uniform vec3 half_size = vec3(0.9, 0.35, 0.4);
 varying vec3 lp;
@@ -26,7 +27,7 @@ void fragment() {
 	float rim = 1.0 - smoothstep(0.0, 0.07, edge);
 	float inset = smoothstep(0.10, 0.14, edge);
 	vec3 col = base_color.rgb;
-	col = mix(col, vec3(0.92, 0.94, 1.0), clamp(hp_glow, 0.0, 1.0) * 0.4);
+	col = mix(col, vec3(0.92, 0.94, 1.0), clamp(hp_glow, 0.0, 1.0) * 0.18);
 	float grad = 0.80 + 0.20 * clamp(lp.y / half_size.y * 0.5 + 0.5, 0.0, 1.0);
 	vec3 emis = vec3(0.0);
 	float metallic = 0.25;
@@ -36,11 +37,16 @@ void fragment() {
 		col = mix(col, vec3(0.45, 0.03, 0.03), 0.5);
 		emis += vec3(1.0, 0.25, 0.08) * (0.25 + 0.7 * pulse) * (rim + 0.25);
 	} else if (kind > 0.5) {
-		metallic = 0.9;
-		rough = 0.3;
+		metallic = 0.35;
+		rough = 0.5;
 		float front = step(0.8, ln.z);
 		float stripe = step(0.5, fract((lp.x + lp.y) * 2.2));
 		col = mix(col, col * 0.55, stripe * front);
+		float crack = smoothstep(0.07, 0.0, abs(sin(lp.x * 9.0 + sin(lp.y * 6.0) * 1.7)));
+		crack += smoothstep(0.06, 0.0, abs(sin(lp.y * 13.0 + sin(lp.x * 5.0) * 1.3)));
+		crack = clamp(crack, 0.0, 1.0) * smoothstep(0.1, 0.4, dmg) * front;
+		col = mix(col, vec3(0.10), crack * 0.7);
+		emis += vec3(1.0, 0.45, 0.15) * crack * dmg * 0.9;
 	}
 	ALBEDO = col * grad * mix(0.78, 1.0, inset);
 	METALLIC = metallic;

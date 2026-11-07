@@ -1,8 +1,8 @@
 shader_type spatial;
 // Chão neon: grade com linhas mestras, brilho sob as bolas e ondas de impacto.
-uniform vec3 base_color : source_color = vec3(0.012, 0.010, 0.045);
-uniform vec3 line_color : source_color = vec3(0.10, 0.34, 1.0);
-uniform vec3 accent_color : source_color = vec3(1.0, 0.18, 0.65);
+uniform vec3 base_color : source_color = vec3(0.020, 0.022, 0.040);
+uniform vec3 line_color : source_color = vec3(0.10, 0.28, 0.70);
+uniform vec3 accent_color : source_color = vec3(0.25, 0.55, 1.0);
 uniform float grid_size = 2.0;
 uniform vec4 balls[6];
 uniform vec4 ripple = vec4(0.0, 0.0, -100.0, 0.0);
@@ -35,6 +35,6 @@ void fragment() {
 	ALBEDO = base_color;
 	METALLIC = 0.7;
 	ROUGHNESS = 0.1;
-	EMISSION = lines * (line * (0.22 + glow * 1.4 + ring * 2.5) + major * 0.16)
-		+ line_color * glow * 0.05 + accent_color * ring * 0.18;
+	EMISSION = lines * (line * (0.12 + glow * 0.8 + ring * 2.0) + major * 0.07)
+		+ line_color * glow * 0.015 + accent_color * ring * 0.12;
 }

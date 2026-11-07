@@ -224,6 +224,321 @@
 				"Ondas térmicas",
 				"Ondas gravitacionais"
 			]
+		],
+		[
+			"Qual é o planeta mais próximo do Sol?",
+			"Mercúrio",
+			[
+				"Vênus",
+				"Terra",
+				"Marte"
+			]
+		],
+		[
+			"Qual é o maior planeta do Sistema Solar?",
+			"Júpiter",
+			[
+				"Saturno",
+				"Netuno",
+				"Urano"
+			]
+		],
+		[
+			"Qual planeta é famoso pelos seus anéis?",
+			"Saturno",
+			[
+				"Júpiter",
+				"Marte",
+				"Vênus"
+			]
+		],
+		[
+			"Quantos planetas tem o Sistema Solar?",
+			"Oito",
+			[
+				"Sete",
+				"Nove",
+				"Dez"
+			]
+		],
+		[
+			"Qual é a estrela do nosso Sistema Solar?",
+			"Sol",
+			[
+				"Sirius",
+				"Alfa Centauri",
+				"Betelgeuse"
+			]
+		],
+		[
+			"Qual é o satélite natural da Terra?",
+			"Lua",
+			[
+				"Fobos",
+				"Europa",
+				"Titã"
+			]
+		],
+		[
+			"Qual gás os seres humanos precisam respirar para viver?",
+			"Oxigênio",
+			[
+				"Nitrogênio",
+				"Hélio",
+				"Argônio"
+			]
+		],
+		[
+			"Qual é o osso mais longo do corpo humano?",
+			"Fêmur",
+			[
+				"Tíbia",
+				"Úmero",
+				"Costela"
+			]
+		],
+		[
+			"Quantos ossos tem o corpo de um adulto?",
+			"206",
+			[
+				"180",
+				"250",
+				"300"
+			]
+		],
+		[
+			"Qual órgão é responsável pela respiração?",
+			"Pulmões",
+			[
+				"Estômago",
+				"Rins",
+				"Fígado"
+			]
+		],
+		[
+			"Qual é a unidade de energia no Sistema Internacional?",
+			"Joule",
+			[
+				"Newton",
+				"Watt",
+				"Pascal"
+			]
+		],
+		[
+			"Qual é a unidade de potência no Sistema Internacional?",
+			"Watt",
+			[
+				"Joule",
+				"Volt",
+				"Ampere"
+			]
+		],
+		[
+			"Qual é a velocidade aproximada da luz no vácuo?",
+			"300.000 km/s",
+			[
+				"150.000 km/s",
+				"30.000 km/s",
+				"1.000.000 km/s"
+			]
+		],
+		[
+			"Qual é o símbolo químico do ferro?",
+			"Fe",
+			[
+				"F",
+				"Fr",
+				"Ir"
+			]
+		],
+		[
+			"Qual é o símbolo químico do potássio?",
+			"K",
+			[
+				"P",
+				"Po",
+				"Pt"
+			]
+		],
+		[
+			"Qual gás nobre é usado para encher balões que flutuam?",
+			"Hélio",
+			[
+				"Oxigênio",
+				"Nitrogênio",
+				"Argônio"
+			]
+		],
+		[
+			"Qual processo as plantas usam para produzir seu alimento?",
+			"Fotossíntese",
+			[
+				"Respiração",
+				"Digestão",
+				"Fermentação"
+			]
+		],
+		[
+			"Qual pigmento dá a cor verde às plantas?",
+			"Clorofila",
+			[
+				"Melanina",
+				"Hemoglobina",
+				"Caroteno"
+			]
+		],
+		[
+			"Qual é o animal terrestre mais rápido?",
+			"Guepardo",
+			[
+				"Leão",
+				"Cavalo",
+				"Antílope"
+			]
+		],
+		[
+			"Qual é o maior mamífero do mundo?",
+			"Baleia-azul",
+			[
+				"Elefante-africano",
+				"Girafa",
+				"Hipopótamo"
+			]
+		],
+		[
+			"Qual é o único mamífero capaz de voar?",
+			"Morcego",
+			[
+				"Esquilo-voador",
+				"Pinguim",
+				"Coruja"
+			]
+		],
+		[
+			"Quantas patas tem uma aranha?",
+			"Oito",
+			[
+				"Seis",
+				"Dez",
+				"Quatro"
+			]
+		],
+		[
+			"Quantas patas tem um inseto?",
+			"Seis",
+			[
+				"Quatro",
+				"Oito",
+				"Dez"
+			]
+		],
+		[
+			"A que temperatura a água ferve ao nível do mar?",
+			"100 °C",
+			[
+				"90 °C",
+				"80 °C",
+				"120 °C"
+			]
+		],
+		[
+			"Qual é o estado físico da água em forma de gelo?",
+			"Sólido",
+			[
+				"Líquido",
+				"Gasoso",
+				"Plasma"
+			]
+		],
+		[
+			"Qual força nos mantém presos ao chão?",
+			"Gravidade",
+			[
+				"Magnetismo",
+				"Atrito",
+				"Inércia"
+			]
+		],
+		[
+			"Quem formulou a lei da gravitação universal?",
+			"Isaac Newton",
+			[
+				"Albert Einstein",
+				"Galileu Galilei",
+				"Nikola Tesla"
+			]
+		],
+		[
+			"Quem propôs a teoria da relatividade?",
+			"Albert Einstein",
+			[
+				"Isaac Newton",
+				"Niels Bohr",
+				"Stephen Hawking"
+			]
+		],
+		[
+			"Quem propôs a teoria da evolução por seleção natural?",
+			"Charles Darwin",
+			[
+				"Gregor Mendel",
+				"Louis Pasteur",
+				"Carl Sagan"
+			]
+		],
+		[
+			"Qual tipo de divisão celular forma os gametas?",
+			"Meiose",
+			[
+				"Mitose",
+				"Osmose",
+				"Fotólise"
+			]
+		],
+		[
+			"Qual estrutura do olho muda o tamanho da pupila?",
+			"Íris",
+			[
+				"Retina",
+				"Córnea",
+				"Cristalino"
+			]
+		],
+		[
+			"Qual vitamina o corpo produz com a ajuda da luz solar?",
+			"Vitamina D",
+			[
+				"Vitamina C",
+				"Vitamina A",
+				"Vitamina B12"
+			]
+		],
+		[
+			"Qual destas é uma fonte de energia renovável?",
+			"Energia solar",
+			[
+				"Carvão mineral",
+				"Petróleo",
+				"Gás natural"
+			]
+		],
+		[
+			"Qual instrumento mede a temperatura?",
+			"Termômetro",
+			[
+				"Barômetro",
+				"Higrômetro",
+				"Anemômetro"
+			]
+		],
+		[
+			"Qual instrumento mede a pressão atmosférica?",
+			"Barômetro",
+			[
+				"Termômetro",
+				"Anemômetro",
+				"Pluviômetro"
+			]
 		]
 	],
 	"Cultura": [
@@ -441,6 +756,330 @@
 				"J. K. Rowling",
 				"Agatha Christie",
 				"Virginia Woolf"
+			]
+		],
+		[
+			"Quem pintou A Noite Estrelada?",
+			"Vincent van Gogh",
+			[
+				"Claude Monet",
+				"Salvador Dalí",
+				"Rembrandt"
+			]
+		],
+		[
+			"Quem pintou o teto da Capela Sistina?",
+			"Michelangelo",
+			[
+				"Rafael",
+				"Leonardo da Vinci",
+				"Donatello"
+			]
+		],
+		[
+			"Quem pintou o quadro Abaporu?",
+			"Tarsila do Amaral",
+			[
+				"Anita Malfatti",
+				"Candido Portinari",
+				"Di Cavalcanti"
+			]
+		],
+		[
+			"Quem escreveu Grande Sertão: Veredas?",
+			"João Guimarães Rosa",
+			[
+				"Graciliano Ramos",
+				"Jorge Amado",
+				"Rachel de Queiroz"
+			]
+		],
+		[
+			"Quem escreveu Vidas Secas?",
+			"Graciliano Ramos",
+			[
+				"Jorge Amado",
+				"Machado de Assis",
+				"José Lins do Rego"
+			]
+		],
+		[
+			"Quem escreveu Capitães da Areia?",
+			"Jorge Amado",
+			[
+				"Graciliano Ramos",
+				"Érico Veríssimo",
+				"Monteiro Lobato"
+			]
+		],
+		[
+			"Quem criou o Sítio do Picapau Amarelo?",
+			"Monteiro Lobato",
+			[
+				"Ziraldo",
+				"Ruth Rocha",
+				"Mauricio de Sousa"
+			]
+		],
+		[
+			"Quem criou a Turma da Mônica?",
+			"Mauricio de Sousa",
+			[
+				"Ziraldo",
+				"Monteiro Lobato",
+				"Angeli"
+			]
+		],
+		[
+			"Quem escreveu Romeu e Julieta?",
+			"William Shakespeare",
+			[
+				"Charles Dickens",
+				"Molière",
+				"Oscar Wilde"
+			]
+		],
+		[
+			"Quem escreveu Dom Quixote?",
+			"Miguel de Cervantes",
+			[
+				"Lope de Vega",
+				"Dante Alighieri",
+				"Luís de Camões"
+			]
+		],
+		[
+			"Quem escreveu Os Lusíadas?",
+			"Luís de Camões",
+			[
+				"Fernando Pessoa",
+				"Eça de Queirós",
+				"Machado de Assis"
+			]
+		],
+		[
+			"Quem escreveu o romance 1984?",
+			"George Orwell",
+			[
+				"Aldous Huxley",
+				"Ray Bradbury",
+				"Isaac Asimov"
+			]
+		],
+		[
+			"Quem escreveu O Senhor dos Anéis?",
+			"J. R. R. Tolkien",
+			[
+				"C. S. Lewis",
+				"George R. R. Martin",
+				"J. K. Rowling"
+			]
+		],
+		[
+			"Quem compôs a Nona Sinfonia, com a Ode à Alegria?",
+			"Ludwig van Beethoven",
+			[
+				"Wolfgang Amadeus Mozart",
+				"Johann Sebastian Bach",
+				"Frédéric Chopin"
+			]
+		],
+		[
+			"Quem compôs As Quatro Estações?",
+			"Antonio Vivaldi",
+			[
+				"Johann Sebastian Bach",
+				"Wolfgang Amadeus Mozart",
+				"Piotr Tchaikovsky"
+			]
+		],
+		[
+			"Qual cantor é conhecido como o Rei do Pop?",
+			"Michael Jackson",
+			[
+				"Elvis Presley",
+				"Prince",
+				"Freddie Mercury"
+			]
+		],
+		[
+			"Qual banda lançou o álbum Abbey Road?",
+			"The Beatles",
+			[
+				"The Rolling Stones",
+				"Queen",
+				"Pink Floyd"
+			]
+		],
+		[
+			"Qual ritmo brasileiro ficou famoso nos anos 1950 com João Gilberto?",
+			"Bossa Nova",
+			[
+				"Forró",
+				"Axé",
+				"Frevo"
+			]
+		],
+		[
+			"Qual ritmo é típico das festas juninas do Nordeste?",
+			"Forró",
+			[
+				"Samba",
+				"Bossa Nova",
+				"Lambada"
+			]
+		],
+		[
+			"Qual instrumento é o símbolo do forró?",
+			"Sanfona",
+			[
+				"Violino",
+				"Piano",
+				"Saxofone"
+			]
+		],
+		[
+			"Qual famosa estátua fica no Rio de Janeiro?",
+			"Cristo Redentor",
+			[
+				"Estátua da Liberdade",
+				"Cristo Rei",
+				"Mãe Pátria"
+			]
+		],
+		[
+			"Em qual cidade fica a Torre Eiffel?",
+			"Paris",
+			[
+				"Londres",
+				"Roma",
+				"Madri"
+			]
+		],
+		[
+			"Em qual cidade fica o Big Ben?",
+			"Londres",
+			[
+				"Paris",
+				"Dublin",
+				"Edimburgo"
+			]
+		],
+		[
+			"Em qual país fica o Taj Mahal?",
+			"Índia",
+			[
+				"Paquistão",
+				"Egito",
+				"Tailândia"
+			]
+		],
+		[
+			"Em qual país fica o Coliseu?",
+			"Itália",
+			[
+				"Grécia",
+				"Espanha",
+				"Turquia"
+			]
+		],
+		[
+			"Qual é a principal língua falada na Argentina?",
+			"Espanhol",
+			[
+				"Português",
+				"Italiano",
+				"Inglês"
+			]
+		],
+		[
+			"Qual país é famoso pelo sushi?",
+			"Japão",
+			[
+				"China",
+				"Coreia do Sul",
+				"Tailândia"
+			]
+		],
+		[
+			"Qual é o prato típico brasileiro feito com feijão preto e carnes?",
+			"Feijoada",
+			[
+				"Moqueca",
+				"Acarajé",
+				"Baião de dois"
+			]
+		],
+		[
+			"Qual é o prato nordestino feito com arroz e feijão-de-corda?",
+			"Baião de dois",
+			[
+				"Feijoada",
+				"Vatapá",
+				"Tutu de feijão"
+			]
+		],
+		[
+			"Qual festa tradicional do Nordeste acontece em junho?",
+			"Festa Junina",
+			[
+				"Carnaval",
+				"Oktoberfest",
+				"Réveillon"
+			]
+		],
+		[
+			"Qual é o esporte mais popular do Brasil?",
+			"Futebol",
+			[
+				"Vôlei",
+				"Basquete",
+				"Automobilismo"
+			]
+		],
+		[
+			"Quem é conhecido como o Rei do Futebol?",
+			"Pelé",
+			[
+				"Maradona",
+				"Zico",
+				"Ronaldo"
+			]
+		],
+		[
+			"Qual país sediou a Copa do Mundo de 2014?",
+			"Brasil",
+			[
+				"Alemanha",
+				"África do Sul",
+				"Rússia"
+			]
+		],
+		[
+			"Em qual cidade foram realizadas as Olimpíadas de 2016?",
+			"Rio de Janeiro",
+			[
+				"Londres",
+				"Pequim",
+				"Tóquio"
+			]
+		],
+		[
+			"Quantos jogadores de um time de futebol ficam em campo?",
+			"Onze",
+			[
+				"Dez",
+				"Doze",
+				"Nove"
+			]
+		],
+		[
+			"Qual esporte tem Wimbledon como torneio famoso?",
+			"Tênis",
+			[
+				"Golfe",
+				"Críquete",
+				"Badminton"
 			]
 		]
 	],
@@ -669,6 +1308,348 @@
 				"Lima",
 				"Bogotá"
 			]
+		],
+		[
+			"Qual é a capital da Espanha?",
+			"Madri",
+			[
+				"Barcelona",
+				"Valência",
+				"Sevilha"
+			]
+		],
+		[
+			"Qual é a capital da Itália?",
+			"Roma",
+			[
+				"Milão",
+				"Nápoles",
+				"Veneza"
+			]
+		],
+		[
+			"Qual é a capital da Alemanha?",
+			"Berlim",
+			[
+				"Munique",
+				"Hamburgo",
+				"Frankfurt"
+			]
+		],
+		[
+			"Qual é a capital de Portugal?",
+			"Lisboa",
+			[
+				"Porto",
+				"Coimbra",
+				"Braga"
+			]
+		],
+		[
+			"Qual é a capital do Egito?",
+			"Cairo",
+			[
+				"Alexandria",
+				"Luxor",
+				"Gizé"
+			]
+		],
+		[
+			"Qual é a capital da Índia?",
+			"Nova Délhi",
+			[
+				"Mumbai",
+				"Calcutá",
+				"Bangalore"
+			]
+		],
+		[
+			"Qual é a capital da China?",
+			"Pequim",
+			[
+				"Xangai",
+				"Hong Kong",
+				"Cantão"
+			]
+		],
+		[
+			"Qual é a capital da Rússia?",
+			"Moscou",
+			[
+				"São Petersburgo",
+				"Kiev",
+				"Minsk"
+			]
+		],
+		[
+			"Qual é a capital do Peru?",
+			"Lima",
+			[
+				"Cusco",
+				"Quito",
+				"Bogotá"
+			]
+		],
+		[
+			"Qual é a capital da Colômbia?",
+			"Bogotá",
+			[
+				"Medellín",
+				"Cali",
+				"Caracas"
+			]
+		],
+		[
+			"Qual é a capital da Turquia?",
+			"Ancara",
+			[
+				"Istambul",
+				"Izmir",
+				"Bursa"
+			]
+		],
+		[
+			"Qual é a capital da Suíça?",
+			"Berna",
+			[
+				"Zurique",
+				"Genebra",
+				"Basileia"
+			]
+		],
+		[
+			"Qual é a capital da Grécia?",
+			"Atenas",
+			[
+				"Tessalônica",
+				"Esparta",
+				"Corinto"
+			]
+		],
+		[
+			"Qual é a capital da Suécia?",
+			"Estocolmo",
+			[
+				"Oslo",
+				"Gotemburgo",
+				"Malmö"
+			]
+		],
+		[
+			"Qual é o maior país do mundo em área?",
+			"Rússia",
+			[
+				"Canadá",
+				"China",
+				"Estados Unidos"
+			]
+		],
+		[
+			"Qual é o país mais populoso da América do Sul?",
+			"Brasil",
+			[
+				"Argentina",
+				"Colômbia",
+				"Peru"
+			]
+		],
+		[
+			"Qual oceano banha a costa leste do Brasil?",
+			"Oceano Atlântico",
+			[
+				"Oceano Pacífico",
+				"Oceano Índico",
+				"Oceano Ártico"
+			]
+		],
+		[
+			"Qual linha imaginária divide a Terra em hemisférios Norte e Sul?",
+			"Linha do Equador",
+			[
+				"Trópico de Câncer",
+				"Meridiano de Greenwich",
+				"Trópico de Capricórnio"
+			]
+		],
+		[
+			"Qual é a capital do estado do Piauí?",
+			"Teresina",
+			[
+				"São Luís",
+				"Fortaleza",
+				"Parnaíba"
+			]
+		],
+		[
+			"Qual é a capital do estado do Ceará?",
+			"Fortaleza",
+			[
+				"Sobral",
+				"Juazeiro do Norte",
+				"Natal"
+			]
+		],
+		[
+			"Qual é a capital do estado da Bahia?",
+			"Salvador",
+			[
+				"Feira de Santana",
+				"Ilhéus",
+				"Recife"
+			]
+		],
+		[
+			"Qual é a capital de Pernambuco?",
+			"Recife",
+			[
+				"Olinda",
+				"Caruaru",
+				"Maceió"
+			]
+		],
+		[
+			"Qual é a capital do Maranhão?",
+			"São Luís",
+			[
+				"Imperatriz",
+				"Teresina",
+				"Belém"
+			]
+		],
+		[
+			"Qual é a capital do Pará?",
+			"Belém",
+			[
+				"Santarém",
+				"Manaus",
+				"Macapá"
+			]
+		],
+		[
+			"Qual é a capital do Amazonas?",
+			"Manaus",
+			[
+				"Belém",
+				"Porto Velho",
+				"Boa Vista"
+			]
+		],
+		[
+			"Qual é a capital de Minas Gerais?",
+			"Belo Horizonte",
+			[
+				"Uberlândia",
+				"Ouro Preto",
+				"Juiz de Fora"
+			]
+		],
+		[
+			"Qual é a capital do Rio Grande do Sul?",
+			"Porto Alegre",
+			[
+				"Caxias do Sul",
+				"Pelotas",
+				"Florianópolis"
+			]
+		],
+		[
+			"Qual é a capital do Paraná?",
+			"Curitiba",
+			[
+				"Londrina",
+				"Maringá",
+				"Ponta Grossa"
+			]
+		],
+		[
+			"Qual é a capital de Goiás?",
+			"Goiânia",
+			[
+				"Anápolis",
+				"Brasília",
+				"Palmas"
+			]
+		],
+		[
+			"Qual é a capital do Brasil?",
+			"Brasília",
+			[
+				"Rio de Janeiro",
+				"São Paulo",
+				"Salvador"
+			]
+		],
+		[
+			"Quantos estados tem o Brasil, sem contar o Distrito Federal?",
+			"26",
+			[
+				"27",
+				"25",
+				"24"
+			]
+		],
+		[
+			"Qual é a região mais populosa do Brasil?",
+			"Sudeste",
+			[
+				"Nordeste",
+				"Sul",
+				"Centro-Oeste"
+			]
+		],
+		[
+			"Qual bioma predomina no sertão nordestino?",
+			"Caatinga",
+			[
+				"Cerrado",
+				"Pampa",
+				"Mata Atlântica"
+			]
+		],
+		[
+			"Qual é o maior bioma do Brasil?",
+			"Amazônia",
+			[
+				"Cerrado",
+				"Mata Atlântica",
+				"Caatinga"
+			]
+		],
+		[
+			"Em qual região brasileira fica o Pantanal?",
+			"Centro-Oeste",
+			[
+				"Nordeste",
+				"Sul",
+				"Norte"
+			]
+		],
+		[
+			"Qual país tem a cidade de Marrakech?",
+			"Marrocos",
+			[
+				"Tunísia",
+				"Egito",
+				"Argélia"
+			]
+		],
+		[
+			"Qual continente tem o maior número de países?",
+			"África",
+			[
+				"Ásia",
+				"Europa",
+				"América"
+			]
+		],
+		[
+			"Qual deserto fica no norte do Chile?",
+			"Atacama",
+			[
+				"Saara",
+				"Gobi",
+				"Kalahari"
+			]
 		]
 	],
 	"História": [
@@ -886,6 +1867,1180 @@
 				"1789",
 				"1804",
 				"1750"
+			]
+		],
+		[
+			"Quem foi o primeiro imperador do Brasil?",
+			"Dom Pedro I",
+			[
+				"Dom Pedro II",
+				"Dom João VI",
+				"Deodoro da Fonseca"
+			]
+		],
+		[
+			"Quem proclamou a Independência do Brasil em 1822?",
+			"Dom Pedro I",
+			[
+				"Dom João VI",
+				"José Bonifácio",
+				"Tiradentes"
+			]
+		],
+		[
+			"Quem foi Tiradentes?",
+			"Líder da Inconfidência Mineira",
+			[
+				"Primeiro presidente do Brasil",
+				"Líder da Revolução Farroupilha",
+				"Navegador português"
+			]
+		],
+		[
+			"Qual presidente criou a CLT no Brasil?",
+			"Getúlio Vargas",
+			[
+				"Juscelino Kubitschek",
+				"Jânio Quadros",
+				"Eurico Dutra"
+			]
+		],
+		[
+			"Qual presidente construiu Brasília?",
+			"Juscelino Kubitschek",
+			[
+				"Getúlio Vargas",
+				"João Goulart",
+				"Costa e Silva"
+			]
+		],
+		[
+			"Em que ano Brasília foi inaugurada?",
+			"1960",
+			[
+				"1950",
+				"1964",
+				"1970"
+			]
+		],
+		[
+			"Em que ano o Brasil ganhou sua primeira Copa do Mundo?",
+			"1958",
+			[
+				"1950",
+				"1962",
+				"1970"
+			]
+		],
+		[
+			"Em que ano começou a Segunda Guerra Mundial?",
+			"1939",
+			[
+				"1914",
+				"1941",
+				"1945"
+			]
+		],
+		[
+			"Quem foi o líder da Alemanha nazista?",
+			"Adolf Hitler",
+			[
+				"Benito Mussolini",
+				"Joseph Stalin",
+				"Otto von Bismarck"
+			]
+		],
+		[
+			"Qual invenção foi símbolo da Primeira Revolução Industrial?",
+			"Máquina a vapor",
+			[
+				"Computador",
+				"Avião",
+				"Telefone"
+			]
+		],
+		[
+			"Em qual país começou a Revolução Industrial?",
+			"Inglaterra",
+			[
+				"França",
+				"Alemanha",
+				"Estados Unidos"
+			]
+		],
+		[
+			"Quem comandou a esquadra que chegou ao Brasil em 1500?",
+			"Pedro Álvares Cabral",
+			[
+				"Cristóvão Colombo",
+				"Vasco da Gama",
+				"Américo Vespúcio"
+			]
+		],
+		[
+			"Quem chegou à América em 1492?",
+			"Cristóvão Colombo",
+			[
+				"Pedro Álvares Cabral",
+				"Fernão de Magalhães",
+				"Vasco da Gama"
+			]
+		],
+		[
+			"Quem chegou à Índia por mar em 1498?",
+			"Vasco da Gama",
+			[
+				"Cristóvão Colombo",
+				"Pedro Álvares Cabral",
+				"Bartolomeu Dias"
+			]
+		],
+		[
+			"Como eram chamados os governantes do Egito Antigo?",
+			"Faraós",
+			[
+				"Césares",
+				"Sultões",
+				"Imperadores"
+			]
+		],
+		[
+			"Quem foi Cleópatra?",
+			"Rainha do Egito",
+			[
+				"Imperatriz romana",
+				"Deusa grega",
+				"Rainha da Pérsia"
+			]
+		],
+		[
+			"Quem foi Júlio César?",
+			"Líder militar e político romano",
+			[
+				"Imperador da Grécia",
+				"Faraó do Egito",
+				"Rei de Cartago"
+			]
+		],
+		[
+			"Qual cidade foi destruída pelo vulcão Vesúvio em 79 d.C.?",
+			"Pompeia",
+			[
+				"Roma",
+				"Atenas",
+				"Cartago"
+			]
+		],
+		[
+			"Em que ano caiu Constantinopla, marcando o fim do Império Bizantino?",
+			"1453",
+			[
+				"1492",
+				"1066",
+				"1517"
+			]
+		],
+		[
+			"Qual movimento religioso foi liderado por Martinho Lutero?",
+			"Reforma Protestante",
+			[
+				"Renascimento",
+				"Iluminismo",
+				"Cruzadas"
+			]
+		],
+		[
+			"Em qual período artistas como Leonardo da Vinci e Michelangelo viveram?",
+			"Renascimento",
+			[
+				"Idade Média",
+				"Barroco",
+				"Pré-História"
+			]
+		],
+		[
+			"Como ficou conhecida a disputa entre EUA e União Soviética sem confronto direto?",
+			"Guerra Fria",
+			[
+				"Guerra do Vietnã",
+				"Guerra dos Cem Anos",
+				"Guerra do Golfo"
+			]
+		],
+		[
+			"Em que ano terminou a União Soviética?",
+			"1991",
+			[
+				"1989",
+				"1975",
+				"2001"
+			]
+		],
+		[
+			"Quem foi o primeiro presidente dos Estados Unidos?",
+			"George Washington",
+			[
+				"Abraham Lincoln",
+				"Thomas Jefferson",
+				"John Adams"
+			]
+		],
+		[
+			"Qual povo da antiga Mesopotâmia criou a escrita cuneiforme?",
+			"Sumérios",
+			[
+				"Egípcios",
+				"Romanos",
+				"Fenícios"
+			]
+		],
+		[
+			"Em que ano a família real portuguesa chegou ao Brasil?",
+			"1808",
+			[
+				"1822",
+				"1500",
+				"1789"
+			]
+		],
+		[
+			"Qual revolta ocorreu no Rio Grande do Sul a partir de 1835?",
+			"Revolução Farroupilha",
+			[
+				"Inconfidência Mineira",
+				"Guerra de Canudos",
+				"Balaiada"
+			]
+		],
+		[
+			"Qual guerra aconteceu no interior da Bahia, em Canudos?",
+			"Guerra de Canudos",
+			[
+				"Guerra do Paraguai",
+				"Revolução Federalista",
+				"Cabanagem"
+			]
+		],
+		[
+			"Qual guerra o Brasil travou contra o Paraguai entre 1864 e 1870?",
+			"Guerra do Paraguai",
+			[
+				"Guerra de Canudos",
+				"Guerra do Contestado",
+				"Guerra dos Farrapos"
+			]
+		],
+		[
+			"Quem foi Zumbi dos Palmares?",
+			"Líder do Quilombo dos Palmares",
+			[
+				"Navegador português",
+				"Presidente do Brasil",
+				"Líder da Inconfidência"
+			]
+		],
+		[
+			"Em que data se comemora a Independência do Brasil?",
+			"7 de setembro",
+			[
+				"15 de novembro",
+				"21 de abril",
+				"12 de outubro"
+			]
+		],
+		[
+			"Em que data se comemora a Proclamação da República?",
+			"15 de novembro",
+			[
+				"7 de setembro",
+				"21 de abril",
+				"1º de maio"
+			]
+		],
+		[
+			"Qual civilização tinha Tenochtitlán como capital?",
+			"Asteca",
+			[
+				"Maia",
+				"Inca",
+				"Olmeca"
+			]
+		],
+		[
+			"Quem liderou a Marcha do Sal, em defesa da independência pacífica da Índia?",
+			"Mahatma Gandhi",
+			[
+				"Nelson Mandela",
+				"Jawaharlal Nehru",
+				"Martin Luther King"
+			]
+		],
+		[
+			"Quem lutou contra o apartheid e foi presidente da África do Sul?",
+			"Nelson Mandela",
+			[
+				"Desmond Tutu",
+				"Mahatma Gandhi",
+				"Kofi Annan"
+			]
+		]
+	],
+	"Tecnologia": [
+		[
+			"O que significa a sigla CPU?",
+			"Unidade Central de Processamento",
+			[
+				"Unidade Comum de Programas",
+				"Controle Principal de Usuário",
+				"Central Pública de Usuários"
+			]
+		],
+		[
+			"O que significa a sigla RAM?",
+			"Memória de acesso aleatório",
+			[
+				"Memória de leitura apenas",
+				"Registro de aplicativos móveis",
+				"Rede de acesso móvel"
+			]
+		],
+		[
+			"O que significa a sigla HTML?",
+			"Linguagem de Marcação de Hipertexto",
+			[
+				"Linguagem de Máquina de Texto Alto",
+				"Protocolo de Transferência de Hipertexto",
+				"Interface de Texto de Alto Nível"
+			]
+		],
+		[
+			"O que significa a sigla HTTP?",
+			"Protocolo de Transferência de Hipertexto",
+			[
+				"Linguagem de Marcação de Hipertexto",
+				"Protocolo de Texto de Alta Tecnologia",
+				"Transferência de Texto e Programas"
+			]
+		],
+		[
+			"Qual linguagem é usada para estilizar páginas web?",
+			"CSS",
+			[
+				"HTML",
+				"SQL",
+				"Python"
+			]
+		],
+		[
+			"Qual linguagem é muito usada para consultar bancos de dados?",
+			"SQL",
+			[
+				"CSS",
+				"HTML",
+				"JavaScript"
+			]
+		],
+		[
+			"Qual linguagem de programação foi criada por Guido van Rossum?",
+			"Python",
+			[
+				"Java",
+				"C++",
+				"Ruby"
+			]
+		],
+		[
+			"Qual linguagem roda nos navegadores para dar interatividade às páginas?",
+			"JavaScript",
+			[
+				"Python",
+				"C",
+				"PHP"
+			]
+		],
+		[
+			"Qual é o sistema numérico usado internamente pelos computadores?",
+			"Binário",
+			[
+				"Decimal",
+				"Octal",
+				"Romano"
+			]
+		],
+		[
+			"Quantos bits tem um byte?",
+			"8",
+			[
+				"4",
+				"16",
+				"32"
+			]
+		],
+		[
+			"Qual é o valor decimal do número binário 101?",
+			"5",
+			[
+				"3",
+				"6",
+				"7"
+			]
+		],
+		[
+			"Qual é o valor decimal do número binário 1000?",
+			"8",
+			[
+				"4",
+				"10",
+				"16"
+			]
+		],
+		[
+			"O que é um algoritmo?",
+			"Sequência de passos para resolver um problema",
+			[
+				"Um tipo de hardware",
+				"Uma linguagem de marcação",
+				"Um programa de edição de imagens"
+			]
+		],
+		[
+			"O que significa a sigla IA?",
+			"Inteligência Artificial",
+			[
+				"Interface Automática",
+				"Internet Avançada",
+				"Instrução Algorítmica"
+			]
+		],
+		[
+			"O que é Machine Learning?",
+			"Aprendizado de máquina a partir de dados",
+			[
+				"Montagem de computadores",
+				"Rede de computadores",
+				"Edição de vídeos"
+			]
+		],
+		[
+			"Em que as redes neurais artificiais se inspiram?",
+			"No cérebro humano",
+			[
+				"Em redes elétricas",
+				"No sistema solar",
+				"Em circuitos de rádio"
+			]
+		],
+		[
+			"O que significa a sigla GPU?",
+			"Unidade de Processamento Gráfico",
+			[
+				"Unidade Geral de Programas",
+				"Gerenciador de Placas Universais",
+				"Processador Geral de Usuário"
+			]
+		],
+		[
+			"O que significa a sigla USB?",
+			"Universal Serial Bus",
+			[
+				"United System Backup",
+				"Universal Software Base",
+				"Unified Serial Browser"
+			]
+		],
+		[
+			"O Wi-Fi é uma tecnologia de:",
+			"Rede sem fio",
+			[
+				"Armazenamento de dados",
+				"Processamento gráfico",
+				"Fornecimento de energia"
+			]
+		],
+		[
+			"Qual é o site de buscas mais usado do mundo?",
+			"Google",
+			[
+				"Bing",
+				"Yahoo",
+				"DuckDuckGo"
+			]
+		],
+		[
+			"Qual empresa criou o sistema operacional Windows?",
+			"Microsoft",
+			[
+				"Apple",
+				"Google",
+				"IBM"
+			]
+		],
+		[
+			"Qual empresa criou o iPhone?",
+			"Apple",
+			[
+				"Samsung",
+				"Nokia",
+				"Microsoft"
+			]
+		],
+		[
+			"Qual sistema operacional móvel pertence ao Google?",
+			"Android",
+			[
+				"iOS",
+				"Symbian",
+				"Windows Phone"
+			]
+		],
+		[
+			"Qual é o mascote do Linux?",
+			"Um pinguim chamado Tux",
+			[
+				"Um gato chamado Beastie",
+				"Um clipe chamado Clippy",
+				"Um robô verde"
+			]
+		],
+		[
+			"Quem criou o kernel Linux?",
+			"Linus Torvalds",
+			[
+				"Bill Gates",
+				"Steve Jobs",
+				"Dennis Ritchie"
+			]
+		],
+		[
+			"Quem é considerada a primeira programadora da história?",
+			"Ada Lovelace",
+			[
+				"Grace Hopper",
+				"Alan Turing",
+				"Margaret Hamilton"
+			]
+		],
+		[
+			"Quem criou a Máquina de Turing, base da computação moderna?",
+			"Alan Turing",
+			[
+				"Charles Babbage",
+				"John von Neumann",
+				"Tim Berners-Lee"
+			]
+		],
+		[
+			"Quem criou a World Wide Web?",
+			"Tim Berners-Lee",
+			[
+				"Bill Gates",
+				"Vint Cerf",
+				"Mark Zuckerberg"
+			]
+		],
+		[
+			"Qual extensão é comum em fotos compactadas?",
+			".jpg",
+			[
+				".exe",
+				".mp3",
+				".txt"
+			]
+		],
+		[
+			"Qual extensão é comum em arquivos de texto simples?",
+			".txt",
+			[
+				".png",
+				".mp4",
+				".zip"
+			]
+		],
+		[
+			"Para que serve um firewall?",
+			"Filtrar o tráfego de rede",
+			[
+				"Aumentar a velocidade do processador",
+				"Editar fotos",
+				"Criar planilhas"
+			]
+		],
+		[
+			"O que é phishing?",
+			"Golpe que imita uma fonte confiável para roubar dados",
+			[
+				"Um tipo de memória",
+				"Uma técnica de compressão",
+				"Uma linguagem de programação"
+			]
+		],
+		[
+			"O que significa a sigla URL?",
+			"Localizador Uniforme de Recursos",
+			[
+				"Linguagem Universal de Redes",
+				"Unidade Remota de Leitura",
+				"Link Único de Rede Local"
+			]
+		],
+		[
+			"Qual estrutura de dados segue a regra primeiro a entrar, primeiro a sair?",
+			"Fila",
+			[
+				"Pilha",
+				"Árvore",
+				"Grafo"
+			]
+		],
+		[
+			"Qual estrutura de dados segue a regra último a entrar, primeiro a sair?",
+			"Pilha",
+			[
+				"Fila",
+				"Lista ligada",
+				"Tabela hash"
+			]
+		],
+		[
+			"O que é um bug em programação?",
+			"Um erro no programa",
+			[
+				"Uma atualização do sistema",
+				"Uma linguagem de marcação",
+				"Um tipo de processador"
+			]
+		],
+		[
+			"O que faz um compilador?",
+			"Traduz o código-fonte para linguagem de máquina",
+			[
+				"Corrige erros de digitação",
+				"Conecta o computador à internet",
+				"Apaga arquivos temporários"
+			]
+		],
+		[
+			"Em Python, qual função mostra um texto na tela?",
+			"print",
+			[
+				"echo",
+				"show",
+				"display"
+			]
+		],
+		[
+			"Em Python, qual símbolo inicia um comentário de uma linha?",
+			"#",
+			[
+				"//",
+				"--",
+				"/*"
+			]
+		],
+		[
+			"Em JavaScript, qual palavra declara uma constante?",
+			"const",
+			[
+				"var",
+				"let",
+				"static"
+			]
+		],
+		[
+			"Quantos megabytes (em base binária) há em 1 gigabyte?",
+			"1024",
+			[
+				"1000",
+				"512",
+				"2048"
+			]
+		],
+		[
+			"Qual protocolo é usado para navegar de forma segura na web?",
+			"HTTPS",
+			[
+				"FTP",
+				"HTTP",
+				"SMTP"
+			]
+		],
+		[
+			"O que é a nuvem (cloud) na computação?",
+			"Servidores remotos acessados pela internet",
+			[
+				"Um tipo de monitor",
+				"Uma rede elétrica",
+				"Um programa antivírus"
+			]
+		],
+		[
+			"Qual é a função do Git?",
+			"Controle de versão de código",
+			[
+				"Edição de imagens",
+				"Hospedagem de e-mails",
+				"Criação de planilhas"
+			]
+		],
+		[
+			"O que significa a sigla API?",
+			"Interface de Programação de Aplicações",
+			[
+				"Aplicativo de Processamento Interno",
+				"Algoritmo de Programação Inteligente",
+				"Acesso Protegido à Internet"
+			]
+		],
+		[
+			"O que é um banco de dados?",
+			"Um conjunto organizado de informações",
+			[
+				"A placa-mãe do computador",
+				"Um tipo de rede Wi-Fi",
+				"Um editor de vídeos"
+			]
+		],
+		[
+			"Qual destas é uma linguagem orientada a objetos?",
+			"Java",
+			[
+				"HTML",
+				"CSS",
+				"SQL"
+			]
+		],
+		[
+			"Quem criou o Facebook?",
+			"Mark Zuckerberg",
+			[
+				"Jack Dorsey",
+				"Elon Musk",
+				"Larry Page"
+			]
+		],
+		[
+			"O que é um pixel?",
+			"O menor ponto de uma imagem digital",
+			[
+				"Um tipo de cabo",
+				"Uma unidade de memória",
+				"Uma linguagem de programação"
+			]
+		],
+		[
+			"Qual cor resulta da mistura aditiva de vermelho, verde e azul (RGB)?",
+			"Branco",
+			[
+				"Preto",
+				"Cinza",
+				"Marrom"
+			]
+		]
+	],
+	"Português": [
+		[
+			"Qual é o plural de cidadão?",
+			"Cidadãos",
+			[
+				"Cidadões",
+				"Cidadães",
+				"Cidadanos"
+			]
+		],
+		[
+			"Qual é o plural de pão?",
+			"Pães",
+			[
+				"Pãos",
+				"Pões",
+				"Pãezes"
+			]
+		],
+		[
+			"Qual é o plural de mão?",
+			"Mãos",
+			[
+				"Mões",
+				"Mães",
+				"Mãezes"
+			]
+		],
+		[
+			"Qual é o plural de animal?",
+			"Animais",
+			[
+				"Animales",
+				"Animals",
+				"Animaises"
+			]
+		],
+		[
+			"Qual é o feminino de ator?",
+			"Atriz",
+			[
+				"Atora",
+				"Atrisa",
+				"Atoriz"
+			]
+		],
+		[
+			"Qual é o feminino de príncipe?",
+			"Princesa",
+			[
+				"Príncipa",
+				"Principesa",
+				"Principisa"
+			]
+		],
+		[
+			"Qual é o feminino de leão?",
+			"Leoa",
+			[
+				"Leona",
+				"Leã",
+				"Leoza"
+			]
+		],
+		[
+			"Qual é o antônimo de claro?",
+			"Escuro",
+			[
+				"Brilhante",
+				"Limpo",
+				"Leve"
+			]
+		],
+		[
+			"Qual é o antônimo de generoso?",
+			"Avarento",
+			[
+				"Gentil",
+				"Bondoso",
+				"Alegre"
+			]
+		],
+		[
+			"Qual é um sinônimo de felicidade?",
+			"Alegria",
+			[
+				"Tristeza",
+				"Raiva",
+				"Medo"
+			]
+		],
+		[
+			"Qual é um sinônimo de rápido?",
+			"Veloz",
+			[
+				"Lento",
+				"Pesado",
+				"Calmo"
+			]
+		],
+		[
+			"Qual palavra está escrita corretamente?",
+			"Excelente",
+			[
+				"Escelente",
+				"Esselente",
+				"Eccelente"
+			]
+		],
+		[
+			"Qual palavra está escrita corretamente?",
+			"Exceção",
+			[
+				"Excessão",
+				"Eceção",
+				"Exceçao"
+			]
+		],
+		[
+			"Qual palavra está escrita corretamente?",
+			"Cansaço",
+			[
+				"Canssaço",
+				"Cançasso",
+				"Cansasso"
+			]
+		],
+		[
+			"Qual palavra está escrita corretamente?",
+			"Beleza",
+			[
+				"Belesa",
+				"Beleça",
+				"Belleza"
+			]
+		],
+		[
+			"Qual palavra está escrita corretamente?",
+			"Pesquisa",
+			[
+				"Pesquiza",
+				"Pesquisça",
+				"Pequisa"
+			]
+		],
+		[
+			"Qual palavra está escrita corretamente?",
+			"Privilégio",
+			[
+				"Previlégio",
+				"Privilégeo",
+				"Privilejio"
+			]
+		],
+		[
+			"Qual palavra está escrita corretamente?",
+			"Analisar",
+			[
+				"Analizar",
+				"Analiçar",
+				"Analisár"
+			]
+		],
+		[
+			"Quantas sílabas tem a palavra computador?",
+			"Quatro",
+			[
+				"Três",
+				"Cinco",
+				"Seis"
+			]
+		],
+		[
+			"Quantas sílabas tem a palavra borboleta?",
+			"Quatro",
+			[
+				"Três",
+				"Cinco",
+				"Seis"
+			]
+		],
+		[
+			"Qual destas palavras é oxítona?",
+			"Café",
+			[
+				"Árvore",
+				"Médico",
+				"Janela"
+			]
+		],
+		[
+			"Qual destas palavras é paroxítona?",
+			"Janela",
+			[
+				"Café",
+				"Sofá",
+				"Jacaré"
+			]
+		],
+		[
+			"Qual destas palavras é proparoxítona?",
+			"Médico",
+			[
+				"Café",
+				"Janela",
+				"Amor"
+			]
+		],
+		[
+			"Qual é a classe gramatical da palavra rapidamente?",
+			"Advérbio",
+			[
+				"Adjetivo",
+				"Substantivo",
+				"Verbo"
+			]
+		],
+		[
+			"Qual é a classe gramatical da palavra bonito?",
+			"Adjetivo",
+			[
+				"Advérbio",
+				"Verbo",
+				"Pronome"
+			]
+		],
+		[
+			"Qual é a classe gramatical da palavra correr?",
+			"Verbo",
+			[
+				"Substantivo",
+				"Adjetivo",
+				"Preposição"
+			]
+		],
+		[
+			"Qual é a classe gramatical da palavra mesa?",
+			"Substantivo",
+			[
+				"Verbo",
+				"Adjetivo",
+				"Advérbio"
+			]
+		],
+		[
+			"Qual é a classe gramatical da palavra eu?",
+			"Pronome",
+			[
+				"Artigo",
+				"Verbo",
+				"Advérbio"
+			]
+		],
+		[
+			"Qual é o antônimo de bem?",
+			"Mal",
+			[
+				"Mau",
+				"Bom",
+				"Ótimo"
+			]
+		],
+		[
+			"Complete: Ontem eu ___ ao mercado.",
+			"fui",
+			[
+				"vou",
+				"ia",
+				"irei"
+			]
+		],
+		[
+			"Complete: Hoje nós ___ pizza.",
+			"comemos",
+			[
+				"comeu",
+				"comerão",
+				"comia"
+			]
+		],
+		[
+			"Qual é o coletivo de peixes?",
+			"Cardume",
+			[
+				"Rebanho",
+				"Manada",
+				"Matilha"
+			]
+		],
+		[
+			"Qual é o coletivo de lobos?",
+			"Alcateia",
+			[
+				"Cardume",
+				"Enxame",
+				"Ninhada"
+			]
+		],
+		[
+			"Qual é o coletivo de abelhas?",
+			"Enxame",
+			[
+				"Alcateia",
+				"Cardume",
+				"Manada"
+			]
+		],
+		[
+			"Qual é o coletivo de livros?",
+			"Biblioteca",
+			[
+				"Cardume",
+				"Matilha",
+				"Esquadrão"
+			]
+		],
+		[
+			"Qual sinal de pontuação indica uma pergunta?",
+			"Ponto de interrogação",
+			[
+				"Ponto de exclamação",
+				"Vírgula",
+				"Dois-pontos"
+			]
+		],
+		[
+			"Qual acento aparece na palavra avô?",
+			"Circunflexo",
+			[
+				"Agudo",
+				"Grave",
+				"Til"
+			]
+		],
+		[
+			"Quais sinais aparecem na palavra coração?",
+			"Cedilha e til",
+			[
+				"Apenas acento agudo",
+				"Trema e crase",
+				"Hífen e apóstrofo"
+			]
+		],
+		[
+			"Quem escreveu Memórias Póstumas de Brás Cubas?",
+			"Machado de Assis",
+			[
+				"José de Alencar",
+				"Aluísio Azevedo",
+				"Eça de Queirós"
+			]
+		],
+		[
+			"Qual figura de linguagem compara dois elementos sem usar como?",
+			"Metáfora",
+			[
+				"Comparação",
+				"Hipérbole",
+				"Ironia"
+			]
+		],
+		[
+			"Qual figura de linguagem consiste em um exagero?",
+			"Hipérbole",
+			[
+				"Metáfora",
+				"Eufemismo",
+				"Antítese"
+			]
+		],
+		[
+			"Quantas letras tem o alfabeto da língua portuguesa atualmente?",
+			"26",
+			[
+				"23",
+				"25",
+				"28"
+			]
+		],
+		[
+			"Em que tempo verbal está a palavra cantarei?",
+			"Futuro do presente",
+			[
+				"Pretérito perfeito",
+				"Presente do indicativo",
+				"Pretérito imperfeito"
+			]
+		],
+		[
+			"Qual é o aumentativo de casa?",
+			"Casarão",
+			[
+				"Casinha",
+				"Casebre",
+				"Casota"
+			]
+		],
+		[
+			"Qual é o diminutivo de livro?",
+			"Livrinho",
+			[
+				"Livrão",
+				"Livreiro",
+				"Livraria"
 			]
 		]
 	]

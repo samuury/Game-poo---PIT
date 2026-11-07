@@ -13,5 +13,5 @@ void fragment() {
 	ALBEDO = vec3(0.04, 0.05, 0.12);
 	METALLIC = 0.85;
 	ROUGHNESS = 0.25;
-	EMISSION = neon * (0.35 + 0.45 * flow + pulse * 3.0);
+	EMISSION = neon * (0.22 + 0.18 * flow + pulse * 2.5);
 }

@@ -7,7 +7,8 @@ const MATH_GENS := [
 	["Aritmética", "q_aritmetica"], ["Tabuada", "q_tabuada"], ["Divisão", "q_divisao"],
 	["Porcentagem", "q_porcentagem"], ["Equações", "q_equacao"],
 	["Potências e Raízes", "q_potencia"], ["Frações", "q_fracao"],
-	["Expressões", "q_expressao"], ["Sequências", "q_sequencia"], ["Problemas", "q_problema"]]
+	["Expressões", "q_expressao"], ["Sequências", "q_sequencia"], ["Problemas", "q_problema"],
+	["Geometria", "q_geometria"], ["Múltiplos e Divisores", "q_multiplos"]]
 
 var gerais: Dictionary = {}
 var revisit: Array = []
@@ -272,6 +273,81 @@ func q_problema(n: int) -> Dictionary:
 					l * c, dist_int(l * c, 0, [2 * (l + c), l + c]), "", " m²")
 			return mk_int("Problemas", "Um retângulo mede %d m por %d m. Qual é o seu perímetro?" % [l, c],
 				2 * (l + c), dist_int(2 * (l + c), 0, [l * c, l + c]), "", " m")
+
+
+func q_geometria(n: int) -> Dictionary:
+	match randi() % 5:
+		0:
+			var l := randi_range(3, 12 + n)
+			return mk_int("Geometria", "Um quadrado tem lado de %d cm. Qual é o seu perímetro?" % l,
+				4 * l, dist_int(4 * l, 0, [l * l, 2 * l, l + 4]), "", " cm")
+		1:
+			var b := 2 * randi_range(2, 8 + n / 2)
+			var h := randi_range(3, 12)
+			return mk_int("Geometria", "Um triângulo tem base de %d cm e altura de %d cm. Qual é a sua área?" % [b, h],
+				b * h / 2, dist_int(b * h / 2, 0, [b * h, b + h, b * h / 2 + h]), "", " cm²")
+		2:
+			var a := randi_range(20, 80)
+			var c := randi_range(20, 80)
+			return mk_int("Geometria", "Dois ângulos de um triângulo medem %d° e %d°. Quanto mede o terceiro ângulo?" % [a, c],
+				180 - a - c, dist_int(180 - a - c, 0, [a + c, 180 - a, 90 - a]), "", "°")
+		3:
+			var r := randi_range(2, 15 + n)
+			return mk_int("Geometria", "O raio de um círculo mede %d cm. Quanto mede o seu diâmetro?" % r,
+				2 * r, dist_int(2 * r, 0, [r, r * r, 4 * r]), "", " cm")
+		_:
+			var e := randi_range(2, 5 + n / 3)
+			return mk_int("Geometria", "Um cubo tem aresta de %d cm. Qual é o seu volume?" % e,
+				e * e * e, dist_int(e * e * e, 0, [3 * e, 6 * e * e, e * e]), "", " cm³")
+
+
+func q_multiplos(n: int) -> Dictionary:
+	match randi() % 5:
+		0:
+			var a := randi_range(2, 12)
+			var b := randi_range(2, 12)
+			while b == a:
+				b = randi_range(2, 12)
+			var g := gcd_i(a, b)
+			var mmc := a * b / g
+			return mk_int("Múltiplos e Divisores", "Qual é o MMC de %d e %d?" % [a, b],
+				mmc, dist_int(mmc, 1, [a * b, g, a + b, maxi(a, b)]))
+		1:
+			var g := randi_range(2, 8)
+			var k1 := randi_range(2, 6)
+			var k2 := randi_range(2, 6)
+			while k2 == k1:
+				k2 = randi_range(2, 6)
+			var a := g * k1
+			var b := g * k2
+			var d := gcd_i(a, b)
+			return mk_int("Múltiplos e Divisores", "Qual é o MDC de %d e %d?" % [a, b],
+				d, dist_int(d, 1, [a - b if a > b else b - a, mini(a, b), d * 2, d + 1]))
+		2:
+			var primos := [7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]
+			var compostos := [9, 15, 21, 25, 27, 33, 35, 39, 45, 49, 51, 55, 57, 63, 65, 77, 91]
+			compostos.shuffle()
+			var p: int = primos.pick_random()
+			return mk("Múltiplos e Divisores", "Qual destes números é primo?", str(p),
+				[str(compostos[0]), str(compostos[1]), str(compostos[2])])
+		3:
+			var nums := [10, 12, 14, 15, 16, 18, 20, 21, 24, 27, 28, 30, 36]
+			var x: int = nums.pick_random()
+			var cnt := 0
+			for i in range(1, x + 1):
+				if x % i == 0:
+					cnt += 1
+			return mk_int("Múltiplos e Divisores", "Quantos divisores positivos tem o número %d?" % x,
+				cnt, dist_int(cnt, 1, [cnt + 1, cnt - 1, cnt + 2]))
+		_:
+			var k := randi_range(3, 9)
+			var m := k * randi_range(3, 12)
+			var w: Array = []
+			while w.size() < 3:
+				var cand := str(k * randi_range(3, 12) + randi_range(1, k - 1))
+				if not w.has(cand):
+					w.append(cand)
+			return mk("Múltiplos e Divisores", "Qual destes números é múltiplo de %d?" % k, str(m), w)
 
 
 func gen_from(entry: Array) -> Dictionary:

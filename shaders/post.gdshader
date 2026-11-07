@@ -1,8 +1,8 @@
 shader_type canvas_item;
 // Pós-processamento leve: vinheta e aberração cromática nas bordas.
 uniform sampler2D screen_tex : hint_screen_texture, filter_linear_mipmap;
-uniform float vignette = 0.5;
-uniform float aberration = 0.0016;
+uniform float vignette = 0.3;
+uniform float aberration = 0.0;
 
 void fragment() {
 	vec2 uv = SCREEN_UV;

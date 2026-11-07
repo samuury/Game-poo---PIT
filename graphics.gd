@@ -3,16 +3,16 @@ extends RefCounted
 
 const QUALITY_NAMES := ["BAIXA", "MÉDIA", "ALTA", "ULTRA"]
 const QUALITY_DESC := [
-	"Sem sombras nem pós-processamento. Para PCs fracos.",
-	"MSAA 2x, bloom e sombras suaves.",
-	"MSAA 4x, bloom, SSAO, sombras em alta resolução e vinheta.",
-	"MSAA 4x + FXAA, SSAO, reflexos no chão (SSR), névoa e sombras 8K.",
+	"Sem sombras e sem efeitos. Para PCs fracos.",
+	"MSAA 2x e sombras suaves.",
+	"MSAA 4x, SSAO, brilho sutil e sombras em alta resolução.",
+	"MSAA 4x + FXAA, SSAO, reflexos no chão (SSR) e sombras 8K.",
 ]
 const QUALITY := [
 	{"msaa": 0, "fxaa": true, "ssao": false, "ssr": false, "glow": false, "fog": false, "shadow": false, "shadow_size": 1024, "soft": 0, "post": false},
-	{"msaa": 1, "fxaa": false, "ssao": false, "ssr": false, "glow": true, "fog": false, "shadow": true, "shadow_size": 2048, "soft": 2, "post": true},
+	{"msaa": 1, "fxaa": false, "ssao": false, "ssr": false, "glow": false, "fog": false, "shadow": true, "shadow_size": 2048, "soft": 2, "post": true},
 	{"msaa": 2, "fxaa": false, "ssao": true, "ssr": false, "glow": true, "fog": false, "shadow": true, "shadow_size": 4096, "soft": 3, "post": true},
-	{"msaa": 2, "fxaa": true, "ssao": true, "ssr": true, "glow": true, "fog": true, "shadow": true, "shadow_size": 8192, "soft": 4, "post": true},
+	{"msaa": 2, "fxaa": true, "ssao": true, "ssr": true, "glow": true, "fog": false, "shadow": true, "shadow_size": 8192, "soft": 4, "post": true},
 ]
 const RESOLUTIONS := [Vector2i(1280, 720), Vector2i(1600, 900), Vector2i(1920, 1080), Vector2i(2560, 1440), Vector2i(3840, 2160)]
 const SCALES := [0.5, 0.75, 1.0, 1.5, 2.0]
@@ -88,30 +88,24 @@ func new_paddle_mat() -> ShaderMaterial:
 
 func build_environment(parent: Node) -> void:
 	make_materials()
-	var sky_mat := shader_mat("res://shaders/sky.gdshader")
-	var sky := Sky.new()
-	sky.sky_material = sky_mat
-	sky.process_mode = Sky.PROCESS_MODE_INCREMENTAL
-	sky.radiance_size = Sky.RADIANCE_SIZE_64
-
 	env = Environment.new()
-	env.background_mode = Environment.BG_SKY
-	env.sky = sky
-	env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
-	env.ambient_light_energy = 0.5
-	env.reflected_light_source = Environment.REFLECTION_SOURCE_SKY
+	env.background_mode = Environment.BG_COLOR
+	env.background_color = Color(0.026, 0.03, 0.058)
+	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+	env.ambient_light_color = Color(0.42, 0.48, 0.68)
+	env.ambient_light_energy = 0.55
 	env.tonemap_mode = Environment.TONE_MAPPER_ACES
 	env.tonemap_exposure = 1.0
 	env.tonemap_white = 6.0
 	env.glow_enabled = true
-	env.glow_intensity = 0.7
-	env.glow_strength = 1.0
-	env.glow_bloom = 0.05
-	env.glow_hdr_threshold = 1.15
+	env.glow_intensity = 0.35
+	env.glow_strength = 0.9
+	env.glow_bloom = 0.0
+	env.glow_hdr_threshold = 1.4
 	env.glow_blend_mode = Environment.GLOW_BLEND_MODE_SCREEN
 	env.adjustment_enabled = true
-	env.adjustment_contrast = 1.06
-	env.adjustment_saturation = 1.18
+	env.adjustment_contrast = 1.04
+	env.adjustment_saturation = 1.08
 	env.ssao_radius = 1.4
 	env.ssao_intensity = 2.2
 	env.ssao_power = 1.6
@@ -119,9 +113,6 @@ func build_environment(parent: Node) -> void:
 	env.ssr_fade_in = 0.15
 	env.ssr_fade_out = 2.0
 	env.ssr_depth_tolerance = 0.25
-	env.fog_light_color = Color(0.08, 0.06, 0.20)
-	env.fog_density = 0.004
-	env.fog_sky_affect = 0.0
 	var we := WorldEnvironment.new()
 	we.environment = env
 	parent.add_child(we)
@@ -129,21 +120,13 @@ func build_environment(parent: Node) -> void:
 	sun = DirectionalLight3D.new()
 	sun.rotation_degrees = Vector3(-28, 18, 0)
 	sun.light_energy = 0.9
-	sun.light_color = Color(1.0, 0.95, 0.9)
+	sun.light_color = Color(1.0, 0.97, 0.94)
+	sun.light_specular = 0.0   # sem reflexo especular do "sol" no chão e nos blocos
 	sun.shadow_enabled = true
 	sun.shadow_blur = 1.6
 	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_ORTHOGONAL
 	sun.directional_shadow_max_distance = 45.0
 	parent.add_child(sun)
-
-	var side := [[Vector3(-26, 4, 14), Color(1.0, 0.25, 0.8)], [Vector3(26, 4, 14), Color(0.2, 0.7, 1.0)]]
-	for s in side:
-		var l := OmniLight3D.new()
-		l.position = s[0]
-		l.light_color = s[1]
-		l.light_energy = 0.7
-		l.omni_range = 55.0
-		parent.add_child(l)
 
 
 func build_post(parent: Node) -> void:

@@ -54,7 +54,7 @@ static func generate(level: int, modo: String, dif: Dictionary) -> Array:
 						cells.append({"r": r, "c": c, "tipo": "normal", "hp": brick_hp(level, r, modo, dif)})
 						any_normal = true
 						continue
-					cells.append({"r": r, "c": c, "tipo": tipo, "hp": 1})
+					cells.append({"r": r, "c": c, "tipo": tipo, "hp": obstacle_hp(level, r, modo) if tipo == "obstaculo" else 1})
 				continue
 			cells.append({"r": r, "c": c, "tipo": "normal", "hp": brick_hp(level, r, modo, dif)})
 			any_normal = true
@@ -74,3 +74,8 @@ static func brick_hp(level: int, r: int, modo: String, dif: Dictionary) -> int:
 		hp = 3 if r < 2 else (2 if r < 4 else 1)
 	var bonus_hp := 1 if (modo == "random" and level >= 3 and r < 2) else 0
 	return mini(4, hp + int(dif.vida_extra) + bonus_hp)
+
+
+static func obstacle_hp(level: int, r: int, modo: String) -> int:
+	# Obstáculo quebra com o DOBRO das batidas de um bloco normal do modo Difícil.
+	return 2 * brick_hp(level, r, modo, {"vida_extra": 1})

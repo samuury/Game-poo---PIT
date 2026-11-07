@@ -34,7 +34,7 @@ const MusicScript := preload("res://music.gd")
 const MUSIC_LEVELS := [0.0, 0.35, 0.7, 1.0]
 const MUSIC_NAMES := ["DESLIGADA", "BAIXA", "MÉDIA", "ALTA"]
 const ROW_PTS := [7, 7, 5, 5, 3, 3, 1, 1]
-const MATERIAS := ["Matemática", "Geografia", "Ciências", "História", "Cultura"]
+const MATERIAS := ["Matemática", "Geografia", "Ciências", "História", "Cultura", "Tecnologia", "Português"]
 var ROW_COLORS: Array[Color] = [
 	Color8(200, 72, 72), Color8(200, 72, 72), Color8(198, 108, 58), Color8(198, 108, 58),
 	Color8(72, 160, 72), Color8(72, 160, 72), Color8(200, 190, 60), Color8(200, 190, 60)]
@@ -118,6 +118,15 @@ var cam_smooth := Vector3.ZERO
 var look_smooth := Vector3(0, -1.2, 0)
 var menu_buttons: Array = []
 var menu_refocus := -1
+var menu_panel: PanelContainer
+var msg_box: CenterContainer
+var msg_panel: PanelContainer
+var quiz_btn_labels: Array = []
+var UI_CYAN := Color8(96, 200, 255)
+var UI_GOLD := Color8(255, 212, 110)
+var UI_TEXT := Color8(232, 238, 255)
+var UI_MUTED := Color8(140, 152, 190)
+var UI_RED := Color8(240, 110, 110)
 var music
 var music_idx := 2
 var brick_total := 1
@@ -270,9 +279,10 @@ func setup_env() -> void:
 	cam_smooth = cam_base
 
 	ball_light = OmniLight3D.new()
-	ball_light.omni_range = 10.0
-	ball_light.light_energy = 1.2
+	ball_light.omni_range = 6.5
+	ball_light.light_energy = 0.55
 	ball_light.light_color = Color(1.0, 0.85, 0.6)
+	ball_light.light_specular = 0.0
 	ball_light.position = Vector3(0, PADDLE_Y, 3)
 	add_child(ball_light)
 
@@ -317,7 +327,8 @@ func setup_world() -> void:
 	world.add_child(paddle)
 	var pl := OmniLight3D.new()
 	pl.light_color = Color(0.4, 0.8, 1.0)
-	pl.light_energy = 1.0
+	pl.light_energy = 0.5
+	pl.light_specular = 0.0
 	pl.omni_range = 7.0
 	pl.position = Vector3(0, 0.4, 1.6)
 	paddle.add_child(pl)
@@ -333,18 +344,18 @@ func new_ball(pos: Vector2, vel: Vector2, stuck: bool) -> Dictionary:
 	sm.radius = BALL_R
 	sm.height = BALL_R * 2.0
 	mi.mesh = sm
-	var bmat := mat(Color8(255, 240, 200), 3.0)
+	var bmat := mat(Color8(255, 240, 200), 2.2)
 	mi.material_override = bmat
 	world.add_child(mi)
-	var hmat: StandardMaterial3D = gfx.halo_material(Color(1.0, 0.85, 0.55, 0.5))
+	var hmat: StandardMaterial3D = gfx.halo_material(Color(1.0, 0.85, 0.55, 0.28))
 	var halo := MeshInstance3D.new()
 	var hq := QuadMesh.new()
-	hq.size = Vector2(2.8, 2.8)
+	hq.size = Vector2(1.5, 1.5)
 	halo.mesh = hq
 	halo.material_override = hmat
 	halo.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	mi.add_child(halo)
-	var tmat := mat(Color8(90, 130, 220), 2.2)
+	var tmat := mat(Color8(90, 130, 220), 1.4)
 	var trail: Array = []
 	for i in 8:
 		var tn := MeshInstance3D.new()
@@ -455,17 +466,18 @@ func add_brick(tipo: String, pos: Vector2, r: int, hp: int) -> void:
 	var tw := node.create_tween()
 	tw.tween_interval(r * 0.05 + (pos.x + HALF_W) * 0.012)
 	tw.tween_property(node, "scale", Vector3.ONE, 0.35).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	var br := {"node": node, "pos": pos, "hp": hp, "max": hp, "pts": ROW_PTS[r] if tipo == "normal" else 0,
+	var br := {"node": node, "pos": pos, "hp": hp, "max": hp, "pts": ROW_PTS[r] if tipo == "normal" else (10 if tipo == "obstaculo" else 0),
 		"color": col, "tipo": tipo}
 	bricks.append(br)
 	tint(br)
 
 
 func tint(br: Dictionary) -> void:
-	if br.tipo != "normal":
-		return
 	var n: MeshInstance3D = br.node
-	n.set_instance_shader_parameter("hp_glow", clampf((int(br.hp) - 1) / 3.0, 0.0, 1.0))
+	if br.tipo == "normal":
+		n.set_instance_shader_parameter("hp_glow", clampf((int(br.hp) - 1) / 3.0, 0.0, 1.0))
+	elif br.tipo == "obstaculo":
+		n.set_instance_shader_parameter("dmg", 1.0 - float(br.hp) / float(maxi(1, int(br.max))))
 
 
 func build_bricks() -> void:
@@ -559,8 +571,6 @@ func save_hi() -> void:
 func hit_brick(br: Dictionary, destroy := false) -> void:
 	if not bricks.has(br):
 		return
-	if br.tipo == "obstaculo":
-		return
 	stall_t = 0.0
 	if br.tipo == "bomba":
 		explode_bomb(br)
@@ -612,6 +622,9 @@ func explode_bomb(b0: Dictionary) -> void:
 				queue.append(nb)
 			elif nb.tipo == "normal":
 				hit_brick(nb, true)
+			elif nb.tipo == "obstaculo":
+				hit_brick(nb)
+				hit_brick(nb)
 
 
 func spawn_drop(p: Vector2) -> void:
@@ -733,18 +746,11 @@ func step_ball(b: Dictionary, dt: float) -> bool:
 			if d.length_squared() < BALL_R * BALL_R:
 				hits.append({"br": br, "d": d, "cl": cl})
 		if not hits.is_empty():
-			var chosen: Dictionary = {}
-			for hh in hits:
-				if hh.br.tipo == "obstaculo":
-					chosen = hh
-					break
-			var is_obs := not chosen.is_empty()
-			if not is_obs and fire:
+			var chosen: Dictionary = hits[0]
+			if fire:
 				for hh in hits:
 					hit_brick(hh.br, true)
 			else:
-				if not is_obs:
-					chosen = hits[0]
 				var dd: Vector2 = chosen.d
 				var cc: Vector2 = chosen.cl
 				if dd == Vector2.ZERO:
@@ -755,11 +761,9 @@ func step_ball(b: Dictionary, dt: float) -> bool:
 				else:
 					vel.y = signf(dd.y) * absf(vel.y)
 					pos.y = cc.y + signf(dd.y) * BALL_R
-				if is_obs:
-					sfx_play("duro")
+				if chosen.br.tipo == "obstaculo":
 					vel = vel.rotated(deg_to_rad(randf_range(-3.0, 3.0)))
-				else:
-					hit_brick(chosen.br)
+				hit_brick(chosen.br)
 
 		# raquete
 		if vel.y < 0.0 and pos.y - BALL_R <= PADDLE_Y + PADDLE_H * 0.5 and pos.y >= PADDLE_Y \
@@ -910,7 +914,7 @@ func open_quiz(tipo: String) -> void:
 	quiz_sub.modulate = info.cor
 	quiz_text.text = quiz.text
 	for i in 4:
-		quiz_buttons[i].text = "%d)  %s" % [i + 1, quiz.opts[i]]
+		quiz_btn_labels[i].text = str(quiz.opts[i])
 		quiz_buttons[i].modulate = Color.WHITE
 	quiz_fb_label.text = "Teclas 1-4 ou clique  •  Resposta rápida = mais pontos"
 	quiz_fb_label.modulate = Color(0.7, 0.7, 0.8)
@@ -1103,7 +1107,7 @@ func update_game(delta: float) -> void:
 		tm.albedo_color = Color8(255, 130, 40) if fire else Color8(90, 130, 220)
 		tm.emission = tm.albedo_color
 		var hm: StandardMaterial3D = b.hmat
-		hm.albedo_color = Color(1.0, 0.5, 0.15, 0.6) if fire else Color(1.0, 0.85, 0.55, 0.5)
+		hm.albedo_color = Color(1.0, 0.5, 0.15, 0.4) if fire else Color(1.0, 0.85, 0.55, 0.28)
 		var n: int = b.hist.size()
 		for i in 8:
 			var tn: MeshInstance3D = b.trail[i]
@@ -1184,6 +1188,7 @@ func update_hud(delta: float) -> void:
 		"FIM":
 			msg = fim_text()
 	msg_label.text = msg
+	msg_box.visible = msg != ""
 
 
 func fim_text() -> String:
@@ -1243,13 +1248,25 @@ func build_ui() -> void:
 
 	build_hud(cl)
 
-	msg_label = make_label(30)
+	# mensagem central (pausa, fim de fase, fim de jogo) dentro de um cartão
+	msg_box = CenterContainer.new()
+	msg_box.visible = false
+	msg_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	cl.add_child(msg_box)
+	msg_box.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	msg_panel = PanelContainer.new()
+	msg_panel.add_theme_stylebox_override("panel", panel_style())
+	msg_box.add_child(msg_panel)
+	var msg_mg := MarginContainer.new()
+	for sd in ["left", "top", "right", "bottom"]:
+		msg_mg.add_theme_constant_override("margin_" + sd, 30)
+	msg_panel.add_child(msg_mg)
+	msg_label = make_label(28)
 	msg_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	msg_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	msg_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	msg_label.custom_minimum_size = Vector2(640, 0)
 	msg_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	cl.add_child(msg_label)
-	msg_label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	msg_mg.add_child(msg_label)
 
 	hint_label = make_label(24)
 	hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -1265,101 +1282,375 @@ func build_ui() -> void:
 	cl.add_child(quiz_box)
 	quiz_box.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(800, 0)
+	panel.custom_minimum_size = Vector2(860, 0)
 	panel.add_theme_stylebox_override("panel", panel_style())
 	quiz_box.add_child(panel)
 	var mg := MarginContainer.new()
-	for s in ["left", "top", "right", "bottom"]:
-		mg.add_theme_constant_override("margin_" + s, 24)
+	for sd in ["left", "top", "right", "bottom"]:
+		mg.add_theme_constant_override("margin_" + sd, 28)
 	panel.add_child(mg)
 	var vb := VBoxContainer.new()
-	vb.add_theme_constant_override("separation", 12)
+	vb.add_theme_constant_override("separation", 14)
 	mg.add_child(vb)
 
+	var head := HBoxContainer.new()
+	head.add_theme_constant_override("separation", 10)
+	vb.add_child(head)
+	var cat_chip := make_chip(UI_CYAN)
 	quiz_cat = Label.new()
-	quiz_cat.add_theme_font_size_override("font_size", 22)
-	quiz_cat.modulate = Color8(150, 210, 255)
-	vb.add_child(quiz_cat)
+	quiz_cat.add_theme_font_size_override("font_size", 16)
+	cat_chip.add_child(quiz_cat)
+	head.add_child(cat_chip)
+	var sub_chip := make_chip(UI_GOLD)
 	quiz_sub = Label.new()
-	quiz_sub.add_theme_font_size_override("font_size", 18)
-	vb.add_child(quiz_sub)
+	quiz_sub.add_theme_font_size_override("font_size", 16)
+	sub_chip.add_child(quiz_sub)
+	head.add_child(sub_chip)
+
 	quiz_text = Label.new()
-	quiz_text.add_theme_font_size_override("font_size", 30)
+	quiz_text.add_theme_font_size_override("font_size", 32)
 	quiz_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	quiz_text.custom_minimum_size = Vector2(740, 80)
+	quiz_text.custom_minimum_size = Vector2(800, 90)
 	vb.add_child(quiz_text)
 	quiz_bar = ProgressBar.new()
 	quiz_bar.max_value = 100.0
 	quiz_bar.value = 100.0
 	quiz_bar.show_percentage = false
-	quiz_bar.custom_minimum_size = Vector2(0, 14)
+	quiz_bar.custom_minimum_size = Vector2(0, 10)
 	vb.add_child(quiz_bar)
 	var grid := GridContainer.new()
 	grid.columns = 2
 	grid.add_theme_constant_override("h_separation", 14)
 	grid.add_theme_constant_override("v_separation", 14)
 	vb.add_child(grid)
+	quiz_buttons.clear()
+	quiz_btn_labels.clear()
 	for i in 4:
-		var b := Button.new()
-		b.custom_minimum_size = Vector2(360, 60)
-		b.focus_mode = Control.FOCUS_NONE
-		b.add_theme_font_size_override("font_size", 22)
-		b.pressed.connect(answer.bind(i))
-		grid.add_child(b)
-		quiz_buttons.append(b)
+		var ab := make_answer_button(i)
+		grid.add_child(ab)
+		quiz_buttons.append(ab)
 	quiz_fb_label = Label.new()
-	quiz_fb_label.add_theme_font_size_override("font_size", 22)
+	quiz_fb_label.add_theme_font_size_override("font_size", 21)
 	quiz_fb_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	quiz_fb_label.custom_minimum_size = Vector2(740, 60)
+	quiz_fb_label.custom_minimum_size = Vector2(800, 34)
 	vb.add_child(quiz_fb_label)
 
 	# menus
 	menu_box = CenterContainer.new()
 	cl.add_child(menu_box)
 	menu_box.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	var mpanel := PanelContainer.new()
-	mpanel.add_theme_stylebox_override("panel", panel_style())
-	menu_box.add_child(mpanel)
+	menu_panel = PanelContainer.new()
+	menu_panel.add_theme_stylebox_override("panel", panel_style())
+	menu_box.add_child(menu_panel)
 	var mmg := MarginContainer.new()
-	for s in ["left", "top", "right", "bottom"]:
-		mmg.add_theme_constant_override("margin_" + s, 22)
-	mpanel.add_child(mmg)
+	for sd in ["left", "right"]:
+		mmg.add_theme_constant_override("margin_" + sd, 34)
+	for sd in ["top", "bottom"]:
+		mmg.add_theme_constant_override("margin_" + sd, 26)
+	menu_panel.add_child(mmg)
 	menu_vb = VBoxContainer.new()
-	menu_vb.add_theme_constant_override("separation", 7)
+	menu_vb.add_theme_constant_override("separation", 8)
 	mmg.add_child(menu_vb)
 	ui_theme = build_theme()
 	menu_box.theme = ui_theme
 	quiz_box.theme = ui_theme
 
 
-func mlabel(text: String, size := 18, color := Color.WHITE) -> Label:
+func pick_parent(parent: Node) -> Node:
+	return parent if parent != null else menu_vb
+
+
+func mlabel(text: String, size := 18, color := Color.WHITE, parent: Node = null) -> Label:
 	var l := Label.new()
 	l.text = text
 	l.add_theme_font_size_override("font_size", size)
 	l.modulate = color
 	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	menu_vb.add_child(l)
+	pick_parent(parent).add_child(l)
 	return l
 
 
-func mbutton(text: String, cb: Callable, w := 380.0) -> Button:
+func mwrap(text: String, size := 16, color := Color.WHITE, parent: Node = null, width := 640.0) -> Label:
+	var l := Label.new()
+	l.text = text
+	l.add_theme_font_size_override("font_size", size)
+	l.modulate = color
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	l.custom_minimum_size = Vector2(width, 0)
+	pick_parent(parent).add_child(l)
+	return l
+
+
+func mspace(h: float) -> void:
+	var c := Control.new()
+	c.custom_minimum_size = Vector2(0, h)
+	menu_vb.add_child(c)
+
+
+func maccent() -> void:
+	var line := ColorRect.new()
+	line.color = UI_CYAN
+	line.custom_minimum_size = Vector2(110, 4)
+	line.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	menu_vb.add_child(line)
+
+
+func mtitle(a: String, b: String, sub: String) -> void:
+	var row := HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override("separation", 14)
+	menu_vb.add_child(row)
+	var la := make_label(54 if b != "" else 44)
+	la.text = a
+	la.add_theme_color_override("font_color", UI_GOLD)
+	row.add_child(la)
+	if b != "":
+		var lb := make_label(54)
+		lb.text = b
+		lb.add_theme_color_override("font_color", UI_CYAN)
+		row.add_child(lb)
+	if sub != "":
+		mlabel(sub, 19, UI_MUTED)
+	maccent()
+
+
+func make_chip(col: Color) -> PanelContainer:
+	var pc := PanelContainer.new()
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = Color(col.r, col.g, col.b, 0.14)
+	sb.border_color = Color(col.r, col.g, col.b, 0.65)
+	sb.set_border_width_all(1)
+	sb.set_corner_radius_all(14)
+	sb.content_margin_left = 12
+	sb.content_margin_right = 12
+	sb.content_margin_top = 4
+	sb.content_margin_bottom = 5
+	pc.add_theme_stylebox_override("panel", sb)
+	pc.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return pc
+
+
+func mchip(text: String, col: Color, parent: Node = null) -> PanelContainer:
+	var pc := make_chip(col)
+	var l := Label.new()
+	l.text = text
+	l.add_theme_font_size_override("font_size", 15)
+	l.add_theme_color_override("font_color", UI_TEXT)
+	pc.add_child(l)
+	pick_parent(parent).add_child(pc)
+	return pc
+
+
+func mchips(items: Array) -> void:
+	var row := HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override("separation", 8)
+	menu_vb.add_child(row)
+	for it in items:
+		mchip(it[0], it[1], row)
+
+
+func msection(text: String, parent: Node) -> void:
+	var l := Label.new()
+	l.text = text
+	l.add_theme_font_size_override("font_size", 17)
+	l.add_theme_color_override("font_color", UI_GOLD)
+	parent.add_child(l)
+	var line := ColorRect.new()
+	line.color = Color(UI_GOLD.r, UI_GOLD.g, UI_GOLD.b, 0.35)
+	line.custom_minimum_size = Vector2(0, 2)
+	parent.add_child(line)
+
+
+func mhint(text: String) -> void:
+	mspace(2)
+	mlabel(text, 14, UI_MUTED)
+
+
+func mbutton(text: String, cb: Callable, w := 380.0, primary := false) -> Button:
 	var b := Button.new()
 	b.text = text
-	b.custom_minimum_size = Vector2(w, 46)
+	b.custom_minimum_size = Vector2(w, 58 if primary else 48)
 	b.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	b.add_theme_font_size_override("font_size", 21)
+	b.add_theme_font_size_override("font_size", 25 if primary else 21)
+	if primary:
+		b.theme_type_variation = "PrimaryButton"
 	b.pressed.connect(cb)
 	menu_vb.add_child(b)
 	menu_buttons.append(b)
 	return b
 
 
-func materias_text() -> String:
-	var parts: Array = []
-	for m in MATERIAS:
-		if materias_sel.has(m):
-			parts.append("[x] " + m)
-	return "   •   ".join(parts)
+func card_content(b: Button, title: String, desc: String, selected: bool, left: float) -> void:
+	var vb := VBoxContainer.new()
+	vb.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	vb.alignment = BoxContainer.ALIGNMENT_CENTER
+	vb.add_theme_constant_override("separation", 2)
+	b.add_child(vb)
+	vb.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	vb.offset_left = left
+	vb.offset_right = -16
+	var row := HBoxContainer.new()
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_theme_constant_override("separation", 10)
+	vb.add_child(row)
+	var t := Label.new()
+	t.text = title
+	t.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	t.add_theme_font_size_override("font_size", 23)
+	t.add_theme_color_override("font_color", UI_TEXT)
+	row.add_child(t)
+	if selected:
+		var chip := mchip("ATUAL", UI_GOLD, row)
+		chip.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	var d := Label.new()
+	d.text = desc
+	d.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	d.add_theme_font_size_override("font_size", 15)
+	d.add_theme_color_override("font_color", UI_MUTED)
+	vb.add_child(d)
+
+
+func mcard(title: String, desc: String, cb: Callable, selected := false, w := 560.0) -> Button:
+	var b := Button.new()
+	b.custom_minimum_size = Vector2(w, 74)
+	b.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	b.pressed.connect(cb)
+	var bar := ColorRect.new()
+	bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bar.color = UI_GOLD if selected else UI_CYAN
+	b.add_child(bar)
+	bar.set_anchors_and_offsets_preset(Control.PRESET_LEFT_WIDE)
+	bar.offset_left = 12
+	bar.offset_right = 16
+	bar.offset_top = 14
+	bar.offset_bottom = -14
+	card_content(b, title, desc, selected, 32.0)
+	var refresh := func():
+		bar.color = UI_GOLD if (selected or b.has_focus() or b.is_hovered()) else UI_CYAN
+	b.mouse_entered.connect(refresh)
+	b.mouse_exited.connect(refresh)
+	b.focus_entered.connect(refresh)
+	b.focus_exited.connect(refresh)
+	menu_vb.add_child(b)
+	menu_buttons.append(b)
+	return b
+
+
+func mtoggle(title: String, desc: String, pressed: bool, cb: Callable, parent: Node, w := 330.0) -> Button:
+	var b := Button.new()
+	b.toggle_mode = true
+	b.custom_minimum_size = Vector2(w, 70)
+	b.button_pressed = pressed
+	var ind := Panel.new()
+	ind.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	b.add_child(ind)
+	ind.set_anchors_and_offsets_preset(Control.PRESET_CENTER_LEFT)
+	ind.offset_left = 16
+	ind.offset_right = 40
+	ind.offset_top = -12
+	ind.offset_bottom = 12
+	b.set_meta("ind", ind)
+	card_content(b, title, desc, false, 54.0)
+	refresh_toggle(b)
+	b.toggled.connect(func(_p): refresh_toggle(b))
+	b.toggled.connect(cb)
+	parent.add_child(b)
+	menu_buttons.append(b)
+	return b
+
+
+func refresh_toggle(b: Button) -> void:
+	var ind: Panel = b.get_meta("ind")
+	var sb := StyleBoxFlat.new()
+	sb.set_corner_radius_all(7)
+	sb.set_border_width_all(2)
+	if b.button_pressed:
+		sb.bg_color = UI_CYAN
+		sb.border_color = UI_CYAN
+	else:
+		sb.bg_color = Color(0, 0, 0, 0.25)
+		sb.border_color = UI_MUTED
+	ind.add_theme_stylebox_override("panel", sb)
+
+
+func mrow(title: String, value: String, cb: Callable, w := 560.0) -> Button:
+	var b := Button.new()
+	b.custom_minimum_size = Vector2(w, 54)
+	b.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	b.pressed.connect(cb)
+	var hb := HBoxContainer.new()
+	hb.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	b.add_child(hb)
+	hb.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	hb.offset_left = 22
+	hb.offset_right = -22
+	var t := Label.new()
+	t.text = title
+	t.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	t.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	t.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	t.add_theme_font_size_override("font_size", 19)
+	t.add_theme_color_override("font_color", UI_TEXT)
+	hb.add_child(t)
+	var v := Label.new()
+	v.text = value
+	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	v.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	v.add_theme_font_size_override("font_size", 19)
+	v.add_theme_color_override("font_color", UI_CYAN)
+	hb.add_child(v)
+	menu_vb.add_child(b)
+	menu_buttons.append(b)
+	return b
+
+
+func make_answer_button(i: int) -> Button:
+	var palette: Array[Color] = [Color8(96, 200, 255), Color8(255, 212, 110), Color8(120, 230, 160), Color8(255, 130, 170)]
+	var b := Button.new()
+	b.custom_minimum_size = Vector2(393, 70)
+	b.focus_mode = Control.FOCUS_NONE
+	b.pressed.connect(answer.bind(i))
+	var hb := HBoxContainer.new()
+	hb.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hb.add_theme_constant_override("separation", 14)
+	b.add_child(hb)
+	hb.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	hb.offset_left = 16
+	hb.offset_right = -14
+	var badge := PanelContainer.new()
+	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	badge.custom_minimum_size = Vector2(38, 38)
+	badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = palette[i]
+	sb.set_corner_radius_all(19)
+	badge.add_theme_stylebox_override("panel", sb)
+	var num := Label.new()
+	num.text = str(i + 1)
+	num.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	num.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	num.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	num.add_theme_font_size_override("font_size", 20)
+	num.add_theme_color_override("font_color", Color8(14, 18, 36))
+	badge.add_child(num)
+	hb.add_child(badge)
+	var lb := Label.new()
+	lb.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	lb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	lb.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	lb.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	lb.custom_minimum_size = Vector2(280, 0)
+	lb.add_theme_font_size_override("font_size", 22)
+	hb.add_child(lb)
+	quiz_btn_labels.append(lb)
+	return b
+
+
+func materias_chip() -> String:
+	if materias_sel.size() == 1:
+		return "QUIZ  " + str(materias_sel[0])
+	return "QUIZ  %d matérias" % materias_sel.size()
 
 
 func rebuild_menu() -> void:
@@ -1368,101 +1659,139 @@ func rebuild_menu() -> void:
 		ch.queue_free()
 	quiz_checks.clear()
 	menu_buttons.clear()
-	var cyan := Color8(150, 210, 255)
-	var gold := Color8(255, 220, 120)
-	var grey := Color8(150, 150, 170)
+	menu_panel.custom_minimum_size = Vector2(640, 0)
 	match state:
 		"MENU":
-			mlabel("BREAKOUT GENIUS", 46, gold)
-			mlabel("MATEMÁTICA + CONHECIMENTOS GERAIS", 24, cyan)
-			mlabel("Quebre os blocos, pegue as cápsulas e resolva a questão para ganhar o boost!", 17)
-			mlabel("", 8)
-			mlabel("MODO: %s   •   DIFICULDADE: %s" % [("Padrão" if modo_jogo == "padrao" else "Random"), DIFS[dificuldade].nome], 18, cyan)
-			mlabel("QUIZ: " + materias_text(), 16)
-			mlabel("RECORDE: %d" % hi, 20, gold)
-			mlabel("", 8)
-			var jb := mbutton("JOGAR", func(): set_state("SELECAO_MODO"), 280.0)
-			mbutton("COMO JOGAR", func(): set_state("AJUDA"), 280.0)
-			mbutton("GRÁFICOS", func(): set_state("GRAFICOS"), 280.0)
-			mbutton_pair("SOM: " + ("LIGADO" if sound_on else "DESLIGADO"), toggle_sound,
-				"MÚSICA: " + MUSIC_NAMES[music_idx], cycle_music)
-			mlabel("← → / A D / mouse: mover  •  ESPAÇO: lançar / laser  •  P: pausa  •  F11: tela cheia", 15, grey)
-			jb.grab_focus()
+			build_menu_main()
 		"AJUDA":
-			mlabel("COMO JOGAR", 36, gold)
-			mlabel("Pegue as cápsulas que caem dos blocos e responda ao quiz para ganhar o boost.", 16)
-			mlabel("BOOSTS", 20, gold)
-			var grid := GridContainer.new()
-			grid.columns = 2
-			grid.add_theme_constant_override("h_separation", 36)
-			menu_vb.add_child(grid)
-			for k in BOOSTS:
-				var info: Dictionary = BOOSTS[k]
-				var l := Label.new()
-				l.text = "%s — %s" % [info.nome, info.desc]
-				l.add_theme_font_size_override("font_size", 15)
-				l.modulate = info.cor
-				grid.add_child(l)
-			mlabel("QUESTIONÁRIOS", 20, gold)
-			mlabel("Aritmética • Tabuada • Divisão • Porcentagem • Equações\nPotências e Raízes • Frações • Expressões • Sequências • Problemas", 15)
-			mlabel("Conhecimentos gerais: Geografia • Ciências • História • Cultura", 15)
-			mlabel("Errou ou o tempo acabou? Downgrade por 8 s, e a matéria volta depois como REVISÃO.", 15, Color8(240, 90, 90))
-			mlabel("Blocos cinza = obstáculos indestrutíveis  •  Blocos vermelhos = bombas (explosão em cadeia)", 15, grey)
-			mlabel("Mover: ← → / A D / mouse / direcional  •  Lançar e atirar: ESPAÇO / botão A  •  Responder: 1-4 ou A/B/X/Y  •  Pausa: P ou Start", 15, grey)
-			mbutton("VOLTAR", func(): set_state("MENU"), 240.0).grab_focus()
+			build_menu_help()
 		"GRAFICOS":
-			mlabel("GRÁFICOS", 36, gold)
-			mlabel(GfxScript.QUALITY_DESC[gfx.quality], 16, grey)
-			var r: Vector2i = GfxScript.RESOLUTIONS[gfx.res_idx]
-			mbutton("QUALIDADE: " + GfxScript.QUALITY_NAMES[gfx.quality], func(): gfx_change("quality"), 480.0)
-			mbutton("RESOLUÇÃO DA JANELA: %dx%d" % [r.x, r.y], func(): gfx_change("res"), 480.0)
-			mbutton("TELA CHEIA: " + ("SIM" if gfx.fullscreen else "NÃO"), func(): gfx_change("full"), 480.0)
-			mbutton("ESCALA 3D: %d%%" % int(float(GfxScript.SCALES[gfx.scale_idx]) * 100.0), func(): gfx_change("scale"), 480.0)
-			mbutton("EFEITOS DE TELA: " + ("LIGADOS" if gfx.post else "DESLIGADOS"), func(): gfx_change("post"), 480.0)
-			mlabel(gfx.render_info(get_window()), 16, cyan)
-			mlabel("Escala acima de 100% renderiza em resolução maior e reduz (supersampling): bordas mais nítidas, exige mais da placa de vídeo.", 14, grey)
-			mbutton("VOLTAR", func(): set_state("MENU"), 260.0)
-			var fi := menu_refocus if menu_refocus >= 0 and menu_refocus < menu_buttons.size() else 0
-			(menu_buttons[fi] as Button).grab_focus()
-			menu_refocus = -1
+			build_menu_gfx()
 		"SELECAO_MODO":
-			mlabel("ESCOLHA O MODO DE JOGO", 30)
-			var b1 := mbutton("1)  Padrão — fases clássicas em sequência", func(): choose_modo("padrao"))
-			var b2 := mbutton("2)  Random — fases procedurais aleatórias", func(): choose_modo("random"))
-			mlabel("Clique ou pressione 1/2; setas + ENTER; ESC volta", 15, grey)
-			(b1 if modo_jogo == "padrao" else b2).grab_focus()
+			build_menu_modo()
 		"SELECAO_DIFICULDADE":
-			mlabel("ESCOLHA A DIFICULDADE", 30)
-			var btns := {}
-			var i := 1
-			for k in DIFS:
-				var dif: Dictionary = DIFS[k]
-				btns[k] = mbutton("%d)  %s — %s" % [i, dif.nome, dif.desc], choose_dificuldade.bind(k))
-				i += 1
-			mlabel("Clique ou pressione 1/2/3; setas + ENTER; ESC volta", 15, grey)
-			(btns[dificuldade] as Button).grab_focus()
+			build_menu_dif()
 		"SELECAO_QUIZ":
-			mlabel("ESCOLHA AS MATÉRIAS", 30)
-			var gridq := GridContainer.new()
-			gridq.columns = 2
-			gridq.add_theme_constant_override("h_separation", 14)
-			gridq.add_theme_constant_override("v_separation", 10)
-			menu_vb.add_child(gridq)
-			var idx := 1
-			for m in MATERIAS:
-				var cb := CheckBox.new()
-				cb.text = "%d)  %s" % [idx, m]
-				cb.custom_minimum_size = Vector2(300, 46)
-				cb.add_theme_font_size_override("font_size", 21)
-				cb.button_pressed = materias_sel.has(m)
-				cb.toggled.connect(on_materia_toggled.bind(m))
-				gridq.add_child(cb)
-				quiz_checks[m] = cb
-				idx += 1
-			var start := mbutton("COMEÇAR", start_game, 260.0)
-			mlabel("1-5 marcam/desmarcam; setas navegam; ENTER/ESPAÇO marca; ESC volta", 15, grey)
-			(quiz_checks[MATERIAS[0]] as CheckBox).grab_focus()
-			start.focus_mode = Control.FOCUS_ALL
+			build_menu_quiz()
+
+
+func build_menu_main() -> void:
+	mtitle("BREAKOUT", "GENIUS", "Matemática + conhecimentos gerais")
+	mspace(4)
+	mchips([["MODO  " + ("Padrão" if modo_jogo == "padrao" else "Random"), UI_CYAN],
+		["DIFICULDADE  " + str(DIFS[dificuldade].nome), UI_CYAN], [materias_chip(), UI_GOLD]])
+	mlabel("RECORDE  %06d" % hi, 20, UI_GOLD)
+	mspace(4)
+	var jb := mbutton("JOGAR", func(): set_state("SELECAO_MODO"), 380.0, true)
+	mbutton("COMO JOGAR", func(): set_state("AJUDA"), 380.0)
+	mbutton("GRÁFICOS", func(): set_state("GRAFICOS"), 380.0)
+	mbutton_pair("SOM: " + ("LIGADO" if sound_on else "DESLIGADO"), toggle_sound,
+		"MÚSICA: " + MUSIC_NAMES[music_idx], cycle_music)
+	mhint("← → / A D / mouse: mover  •  ESPAÇO: lançar / laser  •  P: pausa  •  F11: tela cheia")
+	jb.grab_focus()
+
+
+func build_menu_help() -> void:
+	menu_panel.custom_minimum_size = Vector2(780, 0)
+	mtitle("COMO JOGAR", "", "")
+	var sc := ScrollContainer.new()
+	sc.custom_minimum_size = Vector2(740, 400)
+	sc.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	menu_vb.add_child(sc)
+	var inner := VBoxContainer.new()
+	inner.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	inner.add_theme_constant_override("separation", 6)
+	sc.add_child(inner)
+	mwrap("Quebre os blocos com a bola. Alguns blocos soltam cápsulas: pegue com a raquete e responda ao quiz para ganhar um boost.", 16, UI_TEXT, inner, 710.0)
+	msection("BOOSTS", inner)
+	var grid := GridContainer.new()
+	grid.columns = 2
+	grid.add_theme_constant_override("h_separation", 30)
+	grid.add_theme_constant_override("v_separation", 3)
+	inner.add_child(grid)
+	for k in BOOSTS:
+		var info: Dictionary = BOOSTS[k]
+		var l := Label.new()
+		l.text = "%s — %s" % [info.nome, info.desc]
+		l.add_theme_font_size_override("font_size", 15)
+		l.modulate = info.cor
+		grid.add_child(l)
+	msection("BLOCOS", inner)
+	mwrap("Coloridos: quebram com 1 a 4 batidas.", 15, UI_TEXT, inner, 710.0)
+	mwrap("Cinza (reforçados): quebram só depois de muitas batidas, o dobro de um bloco normal do modo Difícil. Rachaduras mostram o estrago.", 15, UI_TEXT, inner, 710.0)
+	mwrap("Vermelhos (bombas): explodem em cadeia e machucam os blocos em volta.", 15, UI_TEXT, inner, 710.0)
+	msection("QUIZ", inner)
+	mwrap("Matemática (12 tipos), Geografia, Ciências, História, Cultura, Tecnologia e Português. Acerto rápido vale mais pontos. Errou ou o tempo acabou? Downgrade por 8 s, e a matéria volta depois como REVISÃO.", 15, UI_TEXT, inner, 710.0)
+	mwrap("A dificuldade se ajusta ao seu desempenho em cada matéria.", 15, UI_TEXT, inner, 710.0)
+	msection("CONTROLES", inner)
+	mwrap("Mover: ← → / A D / mouse / direcional  •  Lançar e atirar: ESPAÇO / botão A", 15, UI_TEXT, inner, 710.0)
+	mwrap("Responder: 1-4 ou A/B/X/Y  •  Pausa: P ou Start  •  Tela cheia: F11", 15, UI_TEXT, inner, 710.0)
+	mspace(2)
+	mbutton("VOLTAR", func(): set_state("MENU"), 240.0, true).grab_focus()
+
+
+func build_menu_gfx() -> void:
+	menu_panel.custom_minimum_size = Vector2(680, 0)
+	mtitle("GRÁFICOS", "", str(GfxScript.QUALITY_DESC[gfx.quality]))
+	mspace(4)
+	var r: Vector2i = GfxScript.RESOLUTIONS[gfx.res_idx]
+	mrow("Qualidade", GfxScript.QUALITY_NAMES[gfx.quality], func(): gfx_change("quality"))
+	mrow("Resolução da janela", "%dx%d" % [r.x, r.y], func(): gfx_change("res"))
+	mrow("Tela cheia", "SIM" if gfx.fullscreen else "NÃO", func(): gfx_change("full"))
+	mrow("Escala 3D", "%d%%" % int(float(GfxScript.SCALES[gfx.scale_idx]) * 100.0), func(): gfx_change("scale"))
+	mrow("Efeitos de tela", "LIGADOS" if gfx.post else "DESLIGADOS", func(): gfx_change("post"))
+	mspace(2)
+	mlabel(gfx.render_info(get_window()), 16, UI_CYAN)
+	mwrap("Escala acima de 100% renderiza em resolução maior e reduz (supersampling): bordas mais nítidas, mas exige mais da placa de vídeo.", 14, UI_MUTED, null, 600.0)
+	mspace(2)
+	mbutton("VOLTAR", func(): set_state("MENU"), 240.0, true)
+	var fi := menu_refocus if menu_refocus >= 0 and menu_refocus < menu_buttons.size() else 0
+	(menu_buttons[fi] as Button).grab_focus()
+	menu_refocus = -1
+
+
+func build_menu_modo() -> void:
+	mtitle("MODO DE JOGO", "", "Passo 1 de 3")
+	mspace(6)
+	var c1 := mcard("Padrão", "Fases clássicas em sequência", func(): choose_modo("padrao"), modo_jogo == "padrao")
+	var c2 := mcard("Random", "Fases procedurais aleatórias, com blocos reforçados e bombas", func(): choose_modo("random"), modo_jogo == "random")
+	mhint("Clique ou pressione 1/2  •  setas + ENTER  •  ESC volta")
+	(c1 if modo_jogo == "padrao" else c2).grab_focus()
+
+
+func build_menu_dif() -> void:
+	mtitle("DIFICULDADE", "", "Passo 2 de 3")
+	mspace(6)
+	var cards := {}
+	for k in DIFS:
+		var dif: Dictionary = DIFS[k]
+		cards[k] = mcard(str(dif.nome), str(dif.desc), choose_dificuldade.bind(k), k == dificuldade)
+	mhint("Clique ou pressione 1/2/3  •  setas + ENTER  •  ESC volta")
+	(cards[dificuldade] as Button).grab_focus()
+
+
+func build_menu_quiz() -> void:
+	menu_panel.custom_minimum_size = Vector2(760, 0)
+	mtitle("MATÉRIAS DO QUIZ", "", "Passo 3 de 3  •  escolha uma ou mais")
+	mspace(4)
+	var descs := {"Matemática": "12 tipos de contas e problemas", "Geografia": "Países, capitais e biomas",
+		"Ciências": "Corpo humano, física e química", "História": "Brasil e mundo",
+		"Cultura": "Arte, música, literatura e esporte", "Tecnologia": "Computação e programação",
+		"Português": "Gramática e ortografia"}
+	var grid := GridContainer.new()
+	grid.columns = 2
+	grid.add_theme_constant_override("h_separation", 12)
+	grid.add_theme_constant_override("v_separation", 10)
+	grid.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	menu_vb.add_child(grid)
+	var idx := 1
+	for m in MATERIAS:
+		quiz_checks[m] = mtoggle("%d  %s" % [idx, m], str(descs.get(m, "")), materias_sel.has(m), on_materia_toggled.bind(m), grid, 340.0)
+		idx += 1
+	mspace(4)
+	mbutton("COMEÇAR", start_game, 300.0, true)
+	mhint("1-7 marcam e desmarcam  •  setas navegam  •  ENTER/ESPAÇO marca  •  ESC volta")
+	(quiz_checks[MATERIAS[0]] as Button).grab_focus()
 
 
 func choose_modo(m: String) -> void:
@@ -1483,7 +1812,9 @@ func on_materia_toggled(pressed: bool, m: String) -> void:
 		if materias_sel.size() > 1:
 			materias_sel.erase(m)
 		else:
-			(quiz_checks[m] as CheckBox).set_pressed_no_signal(true)
+			var b: Button = quiz_checks[m]
+			b.set_pressed_no_signal(true)
+			refresh_toggle(b)
 
 
 # ---------------------------------------------------------------- entrada
@@ -1556,7 +1887,7 @@ func _input(event: InputEvent) -> void:
 				set_state("SELECAO_MODO")
 		"SELECAO_QUIZ":
 			if dg >= 1 and dg <= MATERIAS.size():
-				var cb: CheckBox = quiz_checks[MATERIAS[dg - 1]]
+				var cb: Button = quiz_checks[MATERIAS[dg - 1]]
 				cb.button_pressed = not cb.button_pressed
 			elif k == KEY_ESCAPE:
 				set_state("SELECAO_DIFICULDADE")
@@ -1637,12 +1968,13 @@ func _notification(what: int) -> void:
 
 func panel_style() -> StyleBoxFlat:
 	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color8(18, 20, 44, 245)
-	sb.border_color = Color8(100, 140, 230)
-	sb.set_border_width_all(2)
-	sb.set_corner_radius_all(16)
-	sb.shadow_color = Color(0.25, 0.45, 1.0, 0.28)
-	sb.shadow_size = 22
+	sb.bg_color = Color8(15, 18, 36, 248)
+	sb.border_color = Color8(62, 84, 150)
+	sb.set_border_width_all(1)
+	sb.set_corner_radius_all(20)
+	sb.shadow_color = Color(0, 0, 0, 0.5)
+	sb.shadow_size = 28
+	sb.shadow_offset = Vector2(0, 8)
 	return sb
 
 
@@ -1937,12 +2269,12 @@ func update_pills() -> void:
 			pills.erase(k)
 
 
-func btn_style(bg: Color, border: Color, bw: int) -> StyleBoxFlat:
+func btn_style(bg: Color, border: Color, bw: int, radius := 12) -> StyleBoxFlat:
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = bg
 	sb.border_color = border
 	sb.set_border_width_all(bw)
-	sb.set_corner_radius_all(12)
+	sb.set_corner_radius_all(radius)
 	sb.content_margin_left = 18
 	sb.content_margin_right = 18
 	sb.content_margin_top = 8
@@ -1953,26 +2285,43 @@ func btn_style(bg: Color, border: Color, bw: int) -> StyleBoxFlat:
 	return sb
 
 
+func focus_style(radius := 12) -> StyleBoxFlat:
+	var sb := StyleBoxFlat.new()
+	sb.draw_center = false
+	sb.border_color = UI_GOLD
+	sb.set_border_width_all(3)
+	sb.set_corner_radius_all(radius)
+	return sb
+
+
 func build_theme() -> Theme:
 	var th := Theme.new()
 	th.default_font_size = 20
-	th.set_stylebox("normal", "Button", btn_style(Color8(26, 30, 58), Color8(70, 100, 175), 2))
-	th.set_stylebox("hover", "Button", btn_style(Color8(40, 52, 100), Color8(120, 170, 255), 2))
-	th.set_stylebox("pressed", "Button", btn_style(Color8(58, 80, 150), Color8(170, 205, 255), 2))
-	th.set_stylebox("focus", "Button", btn_style(Color8(34, 42, 86), Color8(255, 220, 120), 3))
+	th.set_stylebox("normal", "Button", btn_style(Color8(22, 27, 52), Color8(54, 72, 130), 1))
+	th.set_stylebox("hover", "Button", btn_style(Color8(32, 42, 82), Color8(110, 160, 245), 2))
+	th.set_stylebox("pressed", "Button", btn_style(Color8(34, 60, 118), UI_CYAN, 2))
+	th.set_stylebox("hover_pressed", "Button", btn_style(Color8(40, 70, 134), UI_CYAN, 2))
+	th.set_stylebox("focus", "Button", focus_style())
 	th.set_stylebox("disabled", "Button", btn_style(Color8(24, 26, 40), Color8(60, 64, 90), 1))
+	for c in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
+		th.set_color(c, "Button", UI_TEXT)
+	th.add_type("PrimaryButton")
+	th.set_type_variation("PrimaryButton", "Button")
+	th.set_stylebox("normal", "PrimaryButton", btn_style(Color8(34, 96, 190), Color8(130, 205, 255), 2, 14))
+	th.set_stylebox("hover", "PrimaryButton", btn_style(Color8(48, 120, 222), Color8(190, 232, 255), 2, 14))
+	th.set_stylebox("pressed", "PrimaryButton", btn_style(Color8(28, 80, 160), Color8(130, 205, 255), 2, 14))
+	th.set_stylebox("focus", "PrimaryButton", focus_style(14))
 	for c in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
-		th.set_color(c, "Button", Color8(228, 234, 255))
+		th.set_color(c, "PrimaryButton", Color.WHITE)
 	var pbg := StyleBoxFlat.new()
 	pbg.bg_color = Color(1, 1, 1, 0.1)
-	pbg.set_corner_radius_all(6)
+	pbg.set_corner_radius_all(5)
 	var pfill := StyleBoxFlat.new()
-	pfill.bg_color = Color8(110, 170, 255)
-	pfill.set_corner_radius_all(6)
+	pfill.bg_color = UI_CYAN
+	pfill.set_corner_radius_all(5)
 	th.set_stylebox("background", "ProgressBar", pbg)
 	th.set_stylebox("fill", "ProgressBar", pfill)
 	return th
-
 
 
 # ---------------------------------------------------------------- trilha sonora
@@ -2027,8 +2376,8 @@ func mbutton_pair(ta: String, ca: Callable, tb: String, cb: Callable) -> void:
 	for spec in [[ta, ca], [tb, cb]]:
 		var b := Button.new()
 		b.text = spec[0]
-		b.custom_minimum_size = Vector2(235, 46)
-		b.add_theme_font_size_override("font_size", 18)
+		b.custom_minimum_size = Vector2(185, 46)
+		b.add_theme_font_size_override("font_size", 17)
 		b.pressed.connect(spec[1])
 		row.add_child(b)
 		menu_buttons.append(b)

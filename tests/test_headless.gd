@@ -12,10 +12,20 @@ func run() -> void:
 	root.add_child(m)
 	await process_frame
 	await process_frame
-	var todas := ["Matemática","Geografia","Ciências","História","Cultura"]
+	var todas := ["Matemática","Geografia","Ciências","História","Cultura","Tecnologia","Português"]
 	print("== banco de perguntas")
 	var g: Dictionary = m.bank.gerais
-	check(g.size() == 4 and g["Geografia"].size() >= 24, "JSON carregado: 4 matérias gerais")
+	var total_q := 0
+	for k in g: total_q += g[k].size()
+	check(g.size() == 6 and g["Geografia"].size() >= 50 and g.has("Tecnologia") and g.has("Português") and total_q >= 300, "JSON carregado: %d matérias gerais, %d perguntas" % [g.size(), total_q])
+	var sem_lixo := true
+	for k in g:
+		for q in g[k]:
+			var ops: Array = [q[1]] + q[2]
+			var uniq := {}
+			for o in ops: uniq[o] = true
+			if uniq.size() != 4 or q[2].has(q[1]): sem_lixo = false
+	check(sem_lixo, "todas as perguntas gerais têm 4 opções distintas e a correta fora das erradas")
 	m.materias_sel = todas
 	var ruins := 0
 	for lv in [1, 3, 6, 10]:
@@ -23,7 +33,7 @@ func run() -> void:
 			var q = m.bank.pick(todas, "", {}, lv)
 			var s := {}
 			for o in q.opts: s[o] = true
-			if q.opts.size() != 4 or s.size() != 4 or q.correct < 0 or q.opts[q.correct] != q.ans: ruins += 1
+			if q.opts.size() != 4 or s.size() != 4 or q.correct < 0 or q.opts[q.correct] != q.ans or str(q.opts).contains("Outra resposta"): ruins += 1
 	check(ruins == 0, "6000 perguntas válidas (4 opções distintas, correta presente) — ruins: %d" % ruins)
 	# revisão: pergunta errada volta depois de 3 perguntas
 	m.bank.revisit.clear()
@@ -133,13 +143,13 @@ func run() -> void:
 	check(not is_instance_valid(nodo), "bloco destruído some depois da animação de saída")
 	print("== gráficos")
 	var shaders_ok := true
-	for sp in ["sky", "floor", "brick", "neon", "paddle", "post"]:
+	for sp in ["floor", "brick", "neon", "paddle", "post"]:
 		if not (load("res://shaders/%s.gdshader" % sp) is Shader): shaders_ok = false
-	check(shaders_ok, "6 shaders carregam (céu, chão, bloco, neon, raquete, pós-processamento)")
+	check(shaders_ok, "5 shaders carregam (chão, bloco, neon, raquete, pós-processamento)")
 	m.gfx.quality = 0; m.apply_gfx()
-	check(not m.gfx.env.glow_enabled and not m.gfx.env.ssao_enabled and not m.gfx.sun.shadow_enabled, "BAIXA: sem bloom, SSAO nem sombras")
+	check(not m.gfx.env.glow_enabled and not m.gfx.env.ssao_enabled and not m.gfx.sun.shadow_enabled, "BAIXA: sem brilho, SSAO nem sombras")
 	m.gfx.quality = 3; m.apply_gfx()
-	check(m.gfx.env.ssr_enabled and m.gfx.env.ssao_enabled and m.gfx.env.fog_enabled and m.gfx.sun.shadow_enabled, "ULTRA: SSR, SSAO, névoa e sombras")
+	check(m.gfx.env.ssr_enabled and m.gfx.env.ssao_enabled and not m.gfx.env.fog_enabled and m.gfx.sun.shadow_enabled, "ULTRA: SSR, SSAO e sombras, sem névoa (fundo limpo)")
 	m.gfx.scale_idx = 4; m.apply_gfx()
 	check(is_equal_approx(m.get_viewport().scaling_3d_scale, 2.0), "escala 3D 200% (supersampling) aplicada")
 	m.gfx.scale_idx = 0; m.apply_gfx()
@@ -230,6 +240,38 @@ func run() -> void:
 		await create_timer(1.0).timeout
 		check(base_p.volume_db < alvo_db - 10.0, "pausa abaixa o volume com fade (%.1f dB)" % base_p.volume_db)
 		m.set_state("JOGANDO")
+	print("== obstáculos quebráveis")
+	var LG2 = load("res://level_gen.gd")
+	var obs_ok := true
+	var obs_total := 0
+	for modo in ["padrao", "random"]:
+		for lv in range(1, 9):
+			for k in 30:
+				for c in LG2.generate(lv, modo, m.DIFS["normal"]):
+					if c.tipo == "obstaculo":
+						obs_total += 1
+						if c.hp != 2 * LG2.brick_hp(lv, c.r, modo, m.DIFS["dificil"]): obs_ok = false
+	check(obs_total > 0 and obs_ok, "obstáculos têm o dobro do HP de um bloco normal do modo Difícil (%d testados)" % obs_total)
+	m.modo_jogo = "random"; m.dificuldade = "facil"; m.level = 1
+	m.start_game()
+	var alvo_o = null
+	for b in m.bricks:
+		if b.tipo == "obstaculo": alvo_o = b; break
+	if alvo_o == null:
+		for _i in 20:
+			m.start_game()
+			for b in m.bricks:
+				if b.tipo == "obstaculo": alvo_o = b; break
+			if alvo_o != null: break
+	var hp_o: int = alvo_o.hp
+	var quebrou_antes := false
+	for i in hp_o - 1:
+		m.hit_brick(alvo_o)
+		if not m.bricks.has(alvo_o): quebrou_antes = true
+	check(not quebrou_antes and m.bricks.has(alvo_o), "obstáculo (HP %d) sobrevive a %d batidas" % [hp_o, hp_o - 1])
+	m.hit_brick(alvo_o)
+	check(not m.bricks.has(alvo_o), "obstáculo quebra na batida %d" % hp_o)
+	m.modo_jogo = "padrao"; m.dificuldade = "normal"
 	print("== partida completa + game over")
 	m.modo_jogo = "random"; m.dificuldade = "dificil"; m.materias_sel = todas
 	m.start_game(); m.launch()
